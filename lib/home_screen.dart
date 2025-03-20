@@ -9,31 +9,39 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              Spacer(),
-              DecisionButton(
-                icon: Icons.close,
-                onPressed: () {
-                  // TODO: スキップ処理を実装
-                },
-                backgroundColor: Colors.red,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 16.0),
+                child: Container(),
               ),
-              const SizedBox(width: 64),
-              DecisionButton(
-                icon: Icons.favorite,
-                onPressed: () {
-                  // TODO: いいね！処理を実装
-                },
-                backgroundColor: Colors.green,
-              ),
-              Spacer(),
-            ],
-          ),
-        ],
+            ),
+            Row(
+              children: [
+                Spacer(),
+                DecisionButton(
+                  icon: Icons.close,
+                  onPressed: () {
+                    // TODO: スキップ処理を実装
+                  },
+                  backgroundColor: Colors.red,
+                ),
+                const SizedBox(width: 64),
+                DecisionButton(
+                  icon: Icons.favorite,
+                  onPressed: () {
+                    // TODO: いいね！処理を実装
+                  },
+                  backgroundColor: Colors.green,
+                ),
+                Spacer(),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
