@@ -9,37 +9,39 @@ class HomeScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
-                child: _MemberCard(),
+        child: GestureDetector(
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
+                  child: _MemberCard(),
+                ),
               ),
-            ),
-            Row(
-              children: [
-                Spacer(),
-                _DecisionButton(
-                  icon: Icons.close,
-                  onPressed: () {
-                    // TODO: スキップ処理を実装
-                  },
-                  backgroundColor: Colors.red,
-                ),
-                const SizedBox(width: 64),
-                _DecisionButton(
-                  icon: Icons.favorite,
-                  onPressed: () {
-                    // TODO: いいね！処理を実装
-                  },
-                  backgroundColor: Colors.green,
-                ),
-                Spacer(),
-              ],
-            ),
-            const SizedBox(height: 16),
-          ],
+              Row(
+                children: [
+                  Spacer(),
+                  _DecisionButton(
+                    icon: Icons.close,
+                    onPressed: () {
+                      // TODO: スキップ処理を実装
+                    },
+                    backgroundColor: Colors.red,
+                  ),
+                  const SizedBox(width: 64),
+                  _DecisionButton(
+                    icon: Icons.favorite,
+                    onPressed: () {
+                      // TODO: いいね！処理を実装
+                    },
+                    backgroundColor: Colors.green,
+                  ),
+                  Spacer(),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
