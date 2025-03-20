@@ -5,3 +5,4 @@ build/
 .dart_tool/
 /.idea
 custom_lint.log
+.DS_Store
