@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final homeUIModel = ref.watch(homeUIModelStateNotifierProvider);
+    final homeUIModelStateNotifier = ref.watch(
+      homeUIModelStateNotifierProvider.notifier,
+    );
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
       backgroundColor: Colors.grey.shade300,
       body: SafeArea(
         child: GestureDetector(
+          onPanStart: (details) {
+            homeUIModelStateNotifier.onStartDrag();
+          },
+          onPanUpdate: (details) {
+            homeUIModelStateNotifier.updateOffset(deltaY: details.delta.dy);
+          },
+          onPanEnd: (details) {
+            homeUIModelStateNotifier.onEndDrag();
+          },
           child: Column(
             children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
-                  child: _MemberCard(),
+                  child: Transform.translate(
+                    offset: Offset(0, homeUIModel.offsetY),
+                    child: _MemberCard(),
+                  ),
                 ),
               ),
               Row(
