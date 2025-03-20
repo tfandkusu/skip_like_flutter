@@ -8,25 +8,22 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
   @override
   HomeUIModel build() => HomeUIModel(
     isInAnimation: false,
-    memberCardAppearance: MemberCardAppearance(offsetY: 0, angle: 0),
-    animationBeginMemberCardAppearance: MemberCardAppearance(
-      offsetY: 0,
-      angle: 0,
-    ),
+    cardAppearance: CardAppearance(offsetY: 0, angle: 0),
+    animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
   );
 
   void updateOffset({required double deltaY}) {
     state = state.copyWith(
-      memberCardAppearance: state.memberCardAppearance.copyWith(
-        offsetY: state.memberCardAppearance.offsetY + deltaY,
+      cardAppearance: state.cardAppearance.copyWith(
+        offsetY: state.cardAppearance.offsetY + deltaY,
       ),
     );
   }
 
   void onEndDrag() {
     state = state.copyWith(
-      memberCardAppearance: MemberCardAppearance(offsetY: 0, angle: 0),
-      animationBeginMemberCardAppearance: state.memberCardAppearance,
+      cardAppearance: CardAppearance(offsetY: 0, angle: 0),
+      animationBeginCardAppearance: state.cardAppearance,
       isInAnimation: true,
     );
   }

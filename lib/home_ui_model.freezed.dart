@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeUIModel {
 
- bool get isInAnimation; MemberCardAppearance get memberCardAppearance; MemberCardAppearance get animationBeginMemberCardAppearance;
+ bool get isInAnimation; CardAppearance get cardAppearance; CardAppearance get animationBeginCardAppearance;
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $HomeUIModelCopyWith<HomeUIModel> get copyWith => _$HomeUIModelCopyWithImpl<Home
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeUIModel&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.memberCardAppearance, memberCardAppearance) || other.memberCardAppearance == memberCardAppearance)&&(identical(other.animationBeginMemberCardAppearance, animationBeginMemberCardAppearance) || other.animationBeginMemberCardAppearance == animationBeginMemberCardAppearance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeUIModel&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isInAnimation,memberCardAppearance,animationBeginMemberCardAppearance);
+int get hashCode => Object.hash(runtimeType,isInAnimation,cardAppearance,animationBeginCardAppearance);
 
 @override
 String toString() {
-  return 'HomeUIModel(isInAnimation: $isInAnimation, memberCardAppearance: $memberCardAppearance, animationBeginMemberCardAppearance: $animationBeginMemberCardAppearance)';
+  return 'HomeUIModel(isInAnimation: $isInAnimation, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
 }
 
 
@@ -46,11 +46,11 @@ abstract mixin class $HomeUIModelCopyWith<$Res>  {
   factory $HomeUIModelCopyWith(HomeUIModel value, $Res Function(HomeUIModel) _then) = _$HomeUIModelCopyWithImpl;
 @useResult
 $Res call({
- bool isInAnimation, MemberCardAppearance memberCardAppearance, MemberCardAppearance animationBeginMemberCardAppearance
+ bool isInAnimation, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
 });
 
 
-$MemberCardAppearanceCopyWith<$Res> get memberCardAppearance;$MemberCardAppearanceCopyWith<$Res> get animationBeginMemberCardAppearance;
+$CardAppearanceCopyWith<$Res> get cardAppearance;$CardAppearanceCopyWith<$Res> get animationBeginCardAppearance;
 
 }
 /// @nodoc
@@ -63,31 +63,31 @@ class _$HomeUIModelCopyWithImpl<$Res>
 
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isInAnimation = null,Object? memberCardAppearance = null,Object? animationBeginMemberCardAppearance = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isInAnimation = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
   return _then(_self.copyWith(
 isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
-as bool,memberCardAppearance: null == memberCardAppearance ? _self.memberCardAppearance : memberCardAppearance // ignore: cast_nullable_to_non_nullable
-as MemberCardAppearance,animationBeginMemberCardAppearance: null == animationBeginMemberCardAppearance ? _self.animationBeginMemberCardAppearance : animationBeginMemberCardAppearance // ignore: cast_nullable_to_non_nullable
-as MemberCardAppearance,
+as bool,cardAppearance: null == cardAppearance ? _self.cardAppearance : cardAppearance // ignore: cast_nullable_to_non_nullable
+as CardAppearance,animationBeginCardAppearance: null == animationBeginCardAppearance ? _self.animationBeginCardAppearance : animationBeginCardAppearance // ignore: cast_nullable_to_non_nullable
+as CardAppearance,
   ));
 }
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MemberCardAppearanceCopyWith<$Res> get memberCardAppearance {
+$CardAppearanceCopyWith<$Res> get cardAppearance {
   
-  return $MemberCardAppearanceCopyWith<$Res>(_self.memberCardAppearance, (value) {
-    return _then(_self.copyWith(memberCardAppearance: value));
+  return $CardAppearanceCopyWith<$Res>(_self.cardAppearance, (value) {
+    return _then(_self.copyWith(cardAppearance: value));
   });
 }/// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MemberCardAppearanceCopyWith<$Res> get animationBeginMemberCardAppearance {
+$CardAppearanceCopyWith<$Res> get animationBeginCardAppearance {
   
-  return $MemberCardAppearanceCopyWith<$Res>(_self.animationBeginMemberCardAppearance, (value) {
-    return _then(_self.copyWith(animationBeginMemberCardAppearance: value));
+  return $CardAppearanceCopyWith<$Res>(_self.animationBeginCardAppearance, (value) {
+    return _then(_self.copyWith(animationBeginCardAppearance: value));
   });
 }
 }
@@ -97,12 +97,12 @@ $MemberCardAppearanceCopyWith<$Res> get animationBeginMemberCardAppearance {
 
 
 class _HomeUIModel implements HomeUIModel {
-  const _HomeUIModel({required this.isInAnimation, required this.memberCardAppearance, required this.animationBeginMemberCardAppearance});
+  const _HomeUIModel({required this.isInAnimation, required this.cardAppearance, required this.animationBeginCardAppearance});
   
 
 @override final  bool isInAnimation;
-@override final  MemberCardAppearance memberCardAppearance;
-@override final  MemberCardAppearance animationBeginMemberCardAppearance;
+@override final  CardAppearance cardAppearance;
+@override final  CardAppearance animationBeginCardAppearance;
 
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
@@ -114,16 +114,16 @@ _$HomeUIModelCopyWith<_HomeUIModel> get copyWith => __$HomeUIModelCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeUIModel&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.memberCardAppearance, memberCardAppearance) || other.memberCardAppearance == memberCardAppearance)&&(identical(other.animationBeginMemberCardAppearance, animationBeginMemberCardAppearance) || other.animationBeginMemberCardAppearance == animationBeginMemberCardAppearance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeUIModel&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isInAnimation,memberCardAppearance,animationBeginMemberCardAppearance);
+int get hashCode => Object.hash(runtimeType,isInAnimation,cardAppearance,animationBeginCardAppearance);
 
 @override
 String toString() {
-  return 'HomeUIModel(isInAnimation: $isInAnimation, memberCardAppearance: $memberCardAppearance, animationBeginMemberCardAppearance: $animationBeginMemberCardAppearance)';
+  return 'HomeUIModel(isInAnimation: $isInAnimation, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
 }
 
 
@@ -134,11 +134,11 @@ abstract mixin class _$HomeUIModelCopyWith<$Res> implements $HomeUIModelCopyWith
   factory _$HomeUIModelCopyWith(_HomeUIModel value, $Res Function(_HomeUIModel) _then) = __$HomeUIModelCopyWithImpl;
 @override @useResult
 $Res call({
- bool isInAnimation, MemberCardAppearance memberCardAppearance, MemberCardAppearance animationBeginMemberCardAppearance
+ bool isInAnimation, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
 });
 
 
-@override $MemberCardAppearanceCopyWith<$Res> get memberCardAppearance;@override $MemberCardAppearanceCopyWith<$Res> get animationBeginMemberCardAppearance;
+@override $CardAppearanceCopyWith<$Res> get cardAppearance;@override $CardAppearanceCopyWith<$Res> get animationBeginCardAppearance;
 
 }
 /// @nodoc
@@ -151,12 +151,12 @@ class __$HomeUIModelCopyWithImpl<$Res>
 
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isInAnimation = null,Object? memberCardAppearance = null,Object? animationBeginMemberCardAppearance = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isInAnimation = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
   return _then(_HomeUIModel(
 isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
-as bool,memberCardAppearance: null == memberCardAppearance ? _self.memberCardAppearance : memberCardAppearance // ignore: cast_nullable_to_non_nullable
-as MemberCardAppearance,animationBeginMemberCardAppearance: null == animationBeginMemberCardAppearance ? _self.animationBeginMemberCardAppearance : animationBeginMemberCardAppearance // ignore: cast_nullable_to_non_nullable
-as MemberCardAppearance,
+as bool,cardAppearance: null == cardAppearance ? _self.cardAppearance : cardAppearance // ignore: cast_nullable_to_non_nullable
+as CardAppearance,animationBeginCardAppearance: null == animationBeginCardAppearance ? _self.animationBeginCardAppearance : animationBeginCardAppearance // ignore: cast_nullable_to_non_nullable
+as CardAppearance,
   ));
 }
 
@@ -164,38 +164,38 @@ as MemberCardAppearance,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MemberCardAppearanceCopyWith<$Res> get memberCardAppearance {
+$CardAppearanceCopyWith<$Res> get cardAppearance {
   
-  return $MemberCardAppearanceCopyWith<$Res>(_self.memberCardAppearance, (value) {
-    return _then(_self.copyWith(memberCardAppearance: value));
+  return $CardAppearanceCopyWith<$Res>(_self.cardAppearance, (value) {
+    return _then(_self.copyWith(cardAppearance: value));
   });
 }/// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MemberCardAppearanceCopyWith<$Res> get animationBeginMemberCardAppearance {
+$CardAppearanceCopyWith<$Res> get animationBeginCardAppearance {
   
-  return $MemberCardAppearanceCopyWith<$Res>(_self.animationBeginMemberCardAppearance, (value) {
-    return _then(_self.copyWith(animationBeginMemberCardAppearance: value));
+  return $CardAppearanceCopyWith<$Res>(_self.animationBeginCardAppearance, (value) {
+    return _then(_self.copyWith(animationBeginCardAppearance: value));
   });
 }
 }
 
 /// @nodoc
-mixin _$MemberCardAppearance {
+mixin _$CardAppearance {
 
  double get offsetY; double get angle;
-/// Create a copy of MemberCardAppearance
+/// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$MemberCardAppearanceCopyWith<MemberCardAppearance> get copyWith => _$MemberCardAppearanceCopyWithImpl<MemberCardAppearance>(this as MemberCardAppearance, _$identity);
+$CardAppearanceCopyWith<CardAppearance> get copyWith => _$CardAppearanceCopyWithImpl<CardAppearance>(this as CardAppearance, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemberCardAppearance&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CardAppearance&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
 }
 
 
@@ -204,15 +204,15 @@ int get hashCode => Object.hash(runtimeType,offsetY,angle);
 
 @override
 String toString() {
-  return 'MemberCardAppearance(offsetY: $offsetY, angle: $angle)';
+  return 'CardAppearance(offsetY: $offsetY, angle: $angle)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $MemberCardAppearanceCopyWith<$Res>  {
-  factory $MemberCardAppearanceCopyWith(MemberCardAppearance value, $Res Function(MemberCardAppearance) _then) = _$MemberCardAppearanceCopyWithImpl;
+abstract mixin class $CardAppearanceCopyWith<$Res>  {
+  factory $CardAppearanceCopyWith(CardAppearance value, $Res Function(CardAppearance) _then) = _$CardAppearanceCopyWithImpl;
 @useResult
 $Res call({
  double offsetY, double angle
@@ -223,14 +223,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$MemberCardAppearanceCopyWithImpl<$Res>
-    implements $MemberCardAppearanceCopyWith<$Res> {
-  _$MemberCardAppearanceCopyWithImpl(this._self, this._then);
+class _$CardAppearanceCopyWithImpl<$Res>
+    implements $CardAppearanceCopyWith<$Res> {
+  _$CardAppearanceCopyWithImpl(this._self, this._then);
 
-  final MemberCardAppearance _self;
-  final $Res Function(MemberCardAppearance) _then;
+  final CardAppearance _self;
+  final $Res Function(CardAppearance) _then;
 
-/// Create a copy of MemberCardAppearance
+/// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? offsetY = null,Object? angle = null,}) {
   return _then(_self.copyWith(
@@ -246,24 +246,24 @@ as double,
 /// @nodoc
 
 
-class _MemberCardAppearance implements MemberCardAppearance {
-  const _MemberCardAppearance({required this.offsetY, required this.angle});
+class _CardAppearance implements CardAppearance {
+  const _CardAppearance({required this.offsetY, required this.angle});
   
 
 @override final  double offsetY;
 @override final  double angle;
 
-/// Create a copy of MemberCardAppearance
+/// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$MemberCardAppearanceCopyWith<_MemberCardAppearance> get copyWith => __$MemberCardAppearanceCopyWithImpl<_MemberCardAppearance>(this, _$identity);
+_$CardAppearanceCopyWith<_CardAppearance> get copyWith => __$CardAppearanceCopyWithImpl<_CardAppearance>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemberCardAppearance&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CardAppearance&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
 }
 
 
@@ -272,15 +272,15 @@ int get hashCode => Object.hash(runtimeType,offsetY,angle);
 
 @override
 String toString() {
-  return 'MemberCardAppearance(offsetY: $offsetY, angle: $angle)';
+  return 'CardAppearance(offsetY: $offsetY, angle: $angle)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$MemberCardAppearanceCopyWith<$Res> implements $MemberCardAppearanceCopyWith<$Res> {
-  factory _$MemberCardAppearanceCopyWith(_MemberCardAppearance value, $Res Function(_MemberCardAppearance) _then) = __$MemberCardAppearanceCopyWithImpl;
+abstract mixin class _$CardAppearanceCopyWith<$Res> implements $CardAppearanceCopyWith<$Res> {
+  factory _$CardAppearanceCopyWith(_CardAppearance value, $Res Function(_CardAppearance) _then) = __$CardAppearanceCopyWithImpl;
 @override @useResult
 $Res call({
  double offsetY, double angle
@@ -291,17 +291,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$MemberCardAppearanceCopyWithImpl<$Res>
-    implements _$MemberCardAppearanceCopyWith<$Res> {
-  __$MemberCardAppearanceCopyWithImpl(this._self, this._then);
+class __$CardAppearanceCopyWithImpl<$Res>
+    implements _$CardAppearanceCopyWith<$Res> {
+  __$CardAppearanceCopyWithImpl(this._self, this._then);
 
-  final _MemberCardAppearance _self;
-  final $Res Function(_MemberCardAppearance) _then;
+  final _CardAppearance _self;
+  final $Res Function(_CardAppearance) _then;
 
-/// Create a copy of MemberCardAppearance
+/// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? offsetY = null,Object? angle = null,}) {
-  return _then(_MemberCardAppearance(
+  return _then(_CardAppearance(
 offsetY: null == offsetY ? _self.offsetY : offsetY // ignore: cast_nullable_to_non_nullable
 as double,angle: null == angle ? _self.angle : angle // ignore: cast_nullable_to_non_nullable
 as double,

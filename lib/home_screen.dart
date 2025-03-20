@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skip_like_flutter/card_appearance_tween.dart';
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
 
@@ -33,28 +34,22 @@ class HomeScreen extends HookConsumerWidget {
                   padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
                   child:
                       uiModel.isInAnimation
-                          ? TweenAnimationBuilder<double>(
-                            tween: Tween<double>(
-                              begin:
-                                  uiModel
-                                      .animationBeginMemberCardAppearance
-                                      .offsetY,
-                              end: uiModel.memberCardAppearance.offsetY,
+                          ? TweenAnimationBuilder<CardAppearance>(
+                            tween: CardAppearanceTween(
+                              begin: uiModel.animationBeginCardAppearance,
+                              end: uiModel.cardAppearance,
                             ),
                             duration: const Duration(milliseconds: 200),
-                            builder: (context, offsetY, child) {
+                            builder: (context, memberCardAppearance, child) {
                               return Transform.translate(
-                                offset: Offset(0, offsetY),
+                                offset: Offset(0, memberCardAppearance.offsetY),
                                 child: child,
                               );
                             },
                             child: _MemberCard(),
                           )
                           : Transform.translate(
-                            offset: Offset(
-                              0,
-                              uiModel.memberCardAppearance.offsetY,
-                            ),
+                            offset: Offset(0, uiModel.cardAppearance.offsetY),
                             child: _MemberCard(),
                           ),
                 ),
