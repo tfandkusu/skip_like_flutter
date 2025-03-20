@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
 
 class HomeScreen extends HookConsumerWidget {
@@ -7,8 +8,8 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeUIModel = ref.watch(homeUIModelStateNotifierProvider);
-    final homeUIModelStateNotifier = ref.watch(
+    final uiModel = ref.watch(homeUIModelStateNotifierProvider);
+    final uiModelStateNotifier = ref.watch(
       homeUIModelStateNotifierProvider.notifier,
     );
     return Scaffold(
@@ -17,23 +18,45 @@ class HomeScreen extends HookConsumerWidget {
       body: SafeArea(
         child: GestureDetector(
           onPanStart: (details) {
-            homeUIModelStateNotifier.onStartDrag();
+            uiModelStateNotifier.onStartDrag();
           },
           onPanUpdate: (details) {
-            homeUIModelStateNotifier.updateOffset(deltaY: details.delta.dy);
+            uiModelStateNotifier.updateOffset(deltaY: details.delta.dy);
           },
           onPanEnd: (details) {
-            homeUIModelStateNotifier.onEndDrag();
+            uiModelStateNotifier.onEndDrag();
           },
           child: Column(
             children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
-                  child: Transform.translate(
-                    offset: Offset(0, homeUIModel.offsetY),
-                    child: _MemberCard(),
-                  ),
+                  child:
+                      uiModel.isInAnimation
+                          ? TweenAnimationBuilder<double>(
+                            tween: Tween<double>(
+                              begin:
+                                  uiModel
+                                      .animationBeginMemberCardAppearance
+                                      .offsetY,
+                              end: uiModel.memberCardAppearance.offsetY,
+                            ),
+                            duration: const Duration(milliseconds: 200),
+                            builder: (context, offsetY, child) {
+                              return Transform.translate(
+                                offset: Offset(0, offsetY),
+                                child: child,
+                              );
+                            },
+                            child: _MemberCard(),
+                          )
+                          : Transform.translate(
+                            offset: Offset(
+                              0,
+                              uiModel.memberCardAppearance.offsetY,
+                            ),
+                            child: _MemberCard(),
+                          ),
                 ),
               ),
               Row(
