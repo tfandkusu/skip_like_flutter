@@ -13,8 +13,8 @@ class HomeScreen extends HookConsumerWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 16.0),
-                child: Container(),
+                padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
+                child: _MemberCard(),
               ),
             ),
             Row(
@@ -39,6 +39,36 @@ class HomeScreen extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// メンバーカード
+class _MemberCard extends StatelessWidget {
+  const _MemberCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Expanded(
+      child: Card(
+        child: Column(
+          children: [
+            Expanded(
+              child: SizedBox(
+                width: double.infinity,
+                child: Image.asset('assets/member.png', fit: BoxFit.cover),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [Text("24歳 東京", style: theme.textTheme.bodyLarge)],
+              ),
+            ),
           ],
         ),
       ),
