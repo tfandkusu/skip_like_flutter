@@ -8,6 +8,7 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
+      backgroundColor: Colors.grey.shade300,
       body: SafeArea(
         child: GestureDetector(
           child: Column(
@@ -57,6 +58,7 @@ class _MemberCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Expanded(
       child: Card(
+        elevation: 2,
         child: Column(
           children: [
             Expanded(
