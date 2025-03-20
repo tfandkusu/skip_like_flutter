@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:skip_like_flutter/decision_button.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
@@ -21,7 +20,7 @@ class HomeScreen extends HookConsumerWidget {
             Row(
               children: [
                 Spacer(),
-                DecisionButton(
+                _DecisionButton(
                   icon: Icons.close,
                   onPressed: () {
                     // TODO: スキップ処理を実装
@@ -29,7 +28,7 @@ class HomeScreen extends HookConsumerWidget {
                   backgroundColor: Colors.red,
                 ),
                 const SizedBox(width: 64),
-                DecisionButton(
+                _DecisionButton(
                   icon: Icons.favorite,
                   onPressed: () {
                     // TODO: いいね！処理を実装
@@ -42,6 +41,33 @@ class HomeScreen extends HookConsumerWidget {
             const SizedBox(height: 16),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// 下部のボタン
+class _DecisionButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+  final Color backgroundColor;
+
+  const _DecisionButton({
+    required this.icon,
+    required this.onPressed,
+    required this.backgroundColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 80,
+      height: 80,
+      child: FloatingActionButton(
+        onPressed: onPressed,
+        backgroundColor: backgroundColor,
+        shape: const CircleBorder(),
+        child: Icon(icon, color: Colors.white),
       ),
     );
   }
