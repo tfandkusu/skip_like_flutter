@@ -17,70 +17,99 @@ class HomeScreen extends HookConsumerWidget {
       appBar: AppBar(title: const Text('Skip or Like ?')),
       backgroundColor: Colors.grey.shade300,
       body: SafeArea(
-        child: GestureDetector(
-          onPanStart: (details) {
-            uiModelStateNotifier.onStartDrag();
-          },
-          onPanUpdate: (details) {
-            uiModelStateNotifier.updateOffset(deltaY: details.delta.dy);
-          },
-          onPanEnd: (details) {
-            uiModelStateNotifier.onEndDrag();
-          },
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
-                  child:
-                      uiModel.isInAnimation
-                          ? TweenAnimationBuilder<CardAppearance>(
-                            tween: CardAppearanceTween(
-                              begin: uiModel.animationBeginCardAppearance,
-                              end: uiModel.cardAppearance,
-                            ),
-                            duration: const Duration(milliseconds: 200),
-                            builder: (context, memberCardAppearance, child) {
-                              return Transform.translate(
-                                offset: Offset(0, memberCardAppearance.offsetY),
-                                child: child,
-                              );
-                            },
-                            child: _MemberCard(),
-                          )
-                          : Transform.translate(
-                            offset: Offset(0, uiModel.cardAppearance.offsetY),
-                            child: _MemberCard(),
-                          ),
-                ),
-              ),
-              Row(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return GestureDetector(
+              onPanStart: (details) {
+                uiModelStateNotifier.onPanStart(
+                  width: constraints.maxWidth,
+                  height: constraints.maxHeight,
+                  startDragX: details.localPosition.dx,
+                  startDragY: details.localPosition.dy,
+                );
+              },
+              onPanUpdate: (details) {
+                uiModelStateNotifier.onPanUpdate(
+                  dragX: details.localPosition.dx,
+                  dragY: details.localPosition.dy,
+                );
+              },
+              onPanEnd: (details) {
+                uiModelStateNotifier.onPanEnd();
+              },
+              child: Column(
                 children: [
-                  Spacer(),
-                  _DecisionButton(
-                    icon: Icons.close,
-                    onPressed: () {
-                      // TODO: スキップ処理を実装
-                    },
-                    backgroundColor: Colors.red,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                        32.0,
+                        16.0,
+                        32.0,
+                        16.0,
+                      ),
+                      child:
+                          uiModel.isInAnimation
+                              ? TweenAnimationBuilder<CardAppearance>(
+                                tween: CardAppearanceTween(
+                                  begin: uiModel.animationBeginCardAppearance,
+                                  end: uiModel.cardAppearance,
+                                ),
+                                duration: const Duration(milliseconds: 200),
+                                builder: (
+                                  context,
+                                  memberCardAppearance,
+                                  child,
+                                ) {
+                                  return Transform(
+                                    transform: _createTransformMatrix(
+                                      uiModel.cardAppearance,
+                                    ),
+                                    child: child,
+                                  );
+                                },
+                                child: _MemberCard(),
+                              )
+                              : Transform(
+                                transform: _createTransformMatrix(
+                                  uiModel.cardAppearance,
+                                ),
+                                child: _MemberCard(),
+                              ),
+                    ),
                   ),
-                  const SizedBox(width: 64),
-                  _DecisionButton(
-                    icon: Icons.favorite,
-                    onPressed: () {
-                      // TODO: いいね！処理を実装
-                    },
-                    backgroundColor: Colors.green,
+                  Row(
+                    children: [
+                      Spacer(),
+                      _DecisionButton(
+                        icon: Icons.close,
+                        onPressed: () {
+                          // TODO: スキップ処理を実装
+                        },
+                        backgroundColor: Colors.red,
+                      ),
+                      const SizedBox(width: 64),
+                      _DecisionButton(
+                        icon: Icons.favorite,
+                        onPressed: () {
+                          // TODO: いいね！処理を実装
+                        },
+                        backgroundColor: Colors.green,
+                      ),
+                      Spacer(),
+                    ],
                   ),
-                  Spacer(),
+                  const SizedBox(height: 16),
                 ],
               ),
-              const SizedBox(height: 16),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
+  }
+
+  Matrix4 _createTransformMatrix(CardAppearance cardAppearance) {
+    return Matrix4.translationValues(0, cardAppearance.offsetY, 0);
   }
 }
 

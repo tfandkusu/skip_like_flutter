@@ -8,19 +8,23 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
   @override
   HomeUIModel build() => HomeUIModel(
     isInAnimation: false,
+    width: 0,
+    height: 0,
+    startDragX: 0,
+    startDragY: 0,
     cardAppearance: CardAppearance(offsetY: 0, angle: 0),
     animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
   );
 
-  void updateOffset({required double deltaY}) {
+  void onPanUpdate({required double dragX, required double dragY}) {
     state = state.copyWith(
       cardAppearance: state.cardAppearance.copyWith(
-        offsetY: state.cardAppearance.offsetY + deltaY,
+        offsetY: dragY - state.startDragY,
       ),
     );
   }
 
-  void onEndDrag() {
+  void onPanEnd() {
     state = state.copyWith(
       cardAppearance: CardAppearance(offsetY: 0, angle: 0),
       animationBeginCardAppearance: state.cardAppearance,
@@ -28,7 +32,18 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
     );
   }
 
-  void onStartDrag() {
-    state = state.copyWith(isInAnimation: false);
+  void onPanStart({
+    required double width,
+    required double height,
+    required double startDragX,
+    required double startDragY,
+  }) {
+    state = state.copyWith(
+      isInAnimation: false,
+      width: width,
+      height: height,
+      startDragX: startDragX,
+      startDragY: startDragY,
+    );
   }
 }
