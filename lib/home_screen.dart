@@ -1,45 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skip_like_flutter/card_appearance_tween.dart';
+import 'package:skip_like_flutter/home_ui_model.dart';
+import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final uiModel = ref.watch(homeUIModelStateNotifierProvider);
+    final uiModelStateNotifier = ref.watch(
+      homeUIModelStateNotifierProvider.notifier,
+    );
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
+      backgroundColor: Colors.grey.shade300,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
-                child: _MemberCard(),
+        child: GestureDetector(
+          onPanStart: (details) {
+            uiModelStateNotifier.onStartDrag();
+          },
+          onPanUpdate: (details) {
+            uiModelStateNotifier.updateOffset(deltaY: details.delta.dy);
+          },
+          onPanEnd: (details) {
+            uiModelStateNotifier.onEndDrag();
+          },
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
+                  child:
+                      uiModel.isInAnimation
+                          ? TweenAnimationBuilder<CardAppearance>(
+                            tween: CardAppearanceTween(
+                              begin: uiModel.animationBeginCardAppearance,
+                              end: uiModel.cardAppearance,
+                            ),
+                            duration: const Duration(milliseconds: 200),
+                            builder: (context, memberCardAppearance, child) {
+                              return Transform.translate(
+                                offset: Offset(0, memberCardAppearance.offsetY),
+                                child: child,
+                              );
+                            },
+                            child: _MemberCard(),
+                          )
+                          : Transform.translate(
+                            offset: Offset(0, uiModel.cardAppearance.offsetY),
+                            child: _MemberCard(),
+                          ),
+                ),
               ),
-            ),
-            Row(
-              children: [
-                Spacer(),
-                _DecisionButton(
-                  icon: Icons.close,
-                  onPressed: () {
-                    // TODO: スキップ処理を実装
-                  },
-                  backgroundColor: Colors.red,
-                ),
-                const SizedBox(width: 64),
-                _DecisionButton(
-                  icon: Icons.favorite,
-                  onPressed: () {
-                    // TODO: いいね！処理を実装
-                  },
-                  backgroundColor: Colors.green,
-                ),
-                Spacer(),
-              ],
-            ),
-            const SizedBox(height: 16),
-          ],
+              Row(
+                children: [
+                  Spacer(),
+                  _DecisionButton(
+                    icon: Icons.close,
+                    onPressed: () {
+                      // TODO: スキップ処理を実装
+                    },
+                    backgroundColor: Colors.red,
+                  ),
+                  const SizedBox(width: 64),
+                  _DecisionButton(
+                    icon: Icons.favorite,
+                    onPressed: () {
+                      // TODO: いいね！処理を実装
+                    },
+                    backgroundColor: Colors.green,
+                  ),
+                  Spacer(),
+                ],
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -55,6 +93,7 @@ class _MemberCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Expanded(
       child: Card(
+        elevation: 2,
         child: Column(
           children: [
             Expanded(
