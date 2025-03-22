@@ -6,6 +6,10 @@ part 'home_ui_model.freezed.dart';
 abstract class HomeUIModel with _$HomeUIModel {
   const factory HomeUIModel({
     required bool isInAnimation,
+    required double width,
+    required double height,
+    required double startDragX,
+    required double startDragY,
     required CardAppearance cardAppearance,
     required CardAppearance animationBeginCardAppearance,
   }) = _HomeUIModel;
