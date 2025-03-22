@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skip_like_flutter/home_ui_model.dart';
@@ -21,12 +22,15 @@ void main() {
         equals(
           HomeUIModel(
             isInAnimation: false,
-            width: 0,
-            height: 0,
-            startDragX: 0,
-            startDragY: 0,
-            cardAppearance: CardAppearance(offsetY: 0, angle: 0),
-            animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
+            width: 0.0,
+            height: 0.0,
+            startDragX: 0.0,
+            startDragY: 0.0,
+            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            animationBeginCardAppearance: CardAppearance(
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
           ),
         ),
       );
@@ -38,10 +42,10 @@ void main() {
       );
 
       notifier.onPanStart(
-        width: 300,
-        height: 500,
-        startDragX: 150,
-        startDragY: 250,
+        width: 300.0,
+        height: 500.0,
+        startDragX: 150.0,
+        startDragY: 250.0,
       );
 
       expect(
@@ -49,12 +53,15 @@ void main() {
         equals(
           HomeUIModel(
             isInAnimation: false,
-            width: 300,
-            height: 500,
-            startDragX: 150,
-            startDragY: 250,
-            cardAppearance: CardAppearance(offsetY: 0, angle: 0),
-            animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
+            width: 300.0,
+            height: 500.0,
+            startDragX: 150.0,
+            startDragY: 250.0,
+            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            animationBeginCardAppearance: CardAppearance(
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
           ),
         ),
       );
@@ -67,26 +74,38 @@ void main() {
 
       // ドラッグ開始位置を設定
       notifier.onPanStart(
-        width: 300,
-        height: 500,
-        startDragX: 150,
-        startDragY: 250,
+        width: 300.0,
+        height: 500.0,
+        startDragX: 150.0,
+        startDragY: 250.0,
       );
 
       // ドラッグ移動
-      notifier.onPanUpdate(dragX: 150, dragY: 350);
+      notifier.onPanUpdate(dragX: 200.0, dragY: 300.0);
+
+      final expectedAngle = atan2(
+        200.0 - 150.0,
+        500.0,
+      ); // dragX - startDragX, height
+      final expectedOffsetY = 300.0 - 250.0; // dragY - startDragY
 
       expect(
         container.read(homeUIModelStateNotifierProvider),
         equals(
           HomeUIModel(
             isInAnimation: false,
-            width: 300,
-            height: 500,
-            startDragX: 150,
-            startDragY: 250,
-            cardAppearance: CardAppearance(offsetY: 100, angle: 0), // 350 - 250
-            animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
+            width: 300.0,
+            height: 500.0,
+            startDragX: 150.0,
+            startDragY: 250.0,
+            cardAppearance: CardAppearance(
+              offsetY: expectedOffsetY,
+              angle: expectedAngle,
+            ),
+            animationBeginCardAppearance: CardAppearance(
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
           ),
         ),
       );
@@ -99,14 +118,17 @@ void main() {
 
       // ドラッグ開始位置を設定
       notifier.onPanStart(
-        width: 300,
-        height: 500,
-        startDragX: 150,
-        startDragY: 250,
+        width: 300.0,
+        height: 500.0,
+        startDragX: 150.0,
+        startDragY: 250.0,
       );
 
       // ドラッグ移動
-      notifier.onPanUpdate(dragX: 150, dragY: 350);
+      notifier.onPanUpdate(dragX: 200.0, dragY: 300.0);
+
+      final expectedAngle = atan2(200.0 - 150.0, 500.0);
+      final expectedOffsetY = 300.0 - 250.0;
 
       // ドラッグ終了
       notifier.onPanEnd();
@@ -116,14 +138,14 @@ void main() {
         equals(
           HomeUIModel(
             isInAnimation: true,
-            width: 300,
-            height: 500,
-            startDragX: 150,
-            startDragY: 250,
-            cardAppearance: CardAppearance(offsetY: 0, angle: 0),
+            width: 300.0,
+            height: 500.0,
+            startDragX: 150.0,
+            startDragY: 250.0,
+            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
             animationBeginCardAppearance: CardAppearance(
-              offsetY: 100,
-              angle: 0,
+              offsetY: expectedOffsetY,
+              angle: expectedAngle,
             ),
           ),
         ),

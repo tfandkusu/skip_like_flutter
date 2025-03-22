@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -20,6 +22,7 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
     state = state.copyWith(
       cardAppearance: state.cardAppearance.copyWith(
         offsetY: dragY - state.startDragY,
+        angle: atan2(dragX - state.startDragX, state.height),
       ),
     );
   }

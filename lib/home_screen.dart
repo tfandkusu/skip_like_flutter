@@ -20,6 +20,7 @@ class HomeScreen extends HookConsumerWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return GestureDetector(
+              behavior: HitTestBehavior.translucent,
               onPanStart: (details) {
                 uiModelStateNotifier.onPanStart(
                   width: constraints.maxWidth,
@@ -55,24 +56,21 @@ class HomeScreen extends HookConsumerWidget {
                                   end: uiModel.cardAppearance,
                                 ),
                                 duration: const Duration(milliseconds: 200),
-                                builder: (
-                                  context,
-                                  memberCardAppearance,
-                                  child,
-                                ) {
-                                  return Transform(
-                                    transform: _createTransformMatrix(
-                                      uiModel.cardAppearance,
-                                    ),
-                                    child: child,
-                                  );
-                                },
+                                builder:
+                                    (context, memberCardAppearance, child) =>
+                                        _createTransform(
+                                          width: constraints.maxWidth,
+                                          height: constraints.maxHeight,
+                                          cardAppearance:
+                                              uiModel.cardAppearance,
+                                          child: child!,
+                                        ),
                                 child: _MemberCard(),
                               )
-                              : Transform(
-                                transform: _createTransformMatrix(
-                                  uiModel.cardAppearance,
-                                ),
+                              : _createTransform(
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
+                                cardAppearance: uiModel.cardAppearance,
                                 child: _MemberCard(),
                               ),
                     ),
@@ -108,8 +106,20 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
-  Matrix4 _createTransformMatrix(CardAppearance cardAppearance) {
-    return Matrix4.translationValues(0, cardAppearance.offsetY, 0);
+  Transform _createTransform({
+    required double width,
+    required double height,
+    required CardAppearance cardAppearance,
+    required Widget child,
+  }) {
+    final matrix =
+        Matrix4.translationValues(0, cardAppearance.offsetY, 0) *
+        Matrix4.rotationZ(cardAppearance.angle);
+    return Transform(
+      origin: Offset(width / 2, height),
+      transform: matrix,
+      child: child,
+    );
   }
 }
 
