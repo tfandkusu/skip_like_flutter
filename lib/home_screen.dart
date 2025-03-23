@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skip_like_flutter/card_appearance_tween.dart';
@@ -38,22 +40,13 @@ class HomeScreen extends HookConsumerWidget {
                 );
               },
               onPanEnd: (details) {
-                final speed = details.velocity.pixelsPerSecond.dx;
-                if (speed < 0) {
-                  _onTapSkip(
-                    uiModelStateNotifier: uiModelStateNotifier,
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight,
-                  );
-                } else if (speed > 0) {
-                  _onTapLike(
-                    uiModelStateNotifier: uiModelStateNotifier,
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight,
-                  );
-                } else {
-                  uiModelStateNotifier.onPanEnd();
-                }
+                _handlePanEnd(
+                  details: details,
+                  uiModel: uiModel,
+                  uiModelStateNotifier: uiModelStateNotifier,
+                  width: constraints.maxWidth,
+                  height: constraints.maxHeight,
+                );
               },
               child: Column(
                 children: [
@@ -154,6 +147,47 @@ class HomeScreen extends HookConsumerWidget {
       }
     }
     return cardWidgets;
+  }
+
+  void _handlePanEnd({
+    required DragEndDetails details,
+    required HomeUIModel uiModel,
+    required HomeUIModelStateNotifier uiModelStateNotifier,
+    required double width,
+    required double height,
+  }) {
+    final speed = details.velocity.pixelsPerSecond.dx;
+    if (speed < 0) {
+      // 左 Fling 操作
+      _onTapSkip(
+        uiModelStateNotifier: uiModelStateNotifier,
+        width: width,
+        height: height,
+      );
+    } else if (speed > 0) {
+      // 右 Fling 操作
+      _onTapLike(
+        uiModelStateNotifier: uiModelStateNotifier,
+        width: width,
+        height: height,
+      );
+    } else if (uiModel.cardAppearance.angle < -pi / 24) {
+      // 左に7.5度以上ドラッグした
+      _onTapSkip(
+        uiModelStateNotifier: uiModelStateNotifier,
+        width: width,
+        height: height,
+      );
+    } else if (uiModel.cardAppearance.angle > pi / 24) {
+      // 右に7.5度以上ドラッグした
+      _onTapLike(
+        uiModelStateNotifier: uiModelStateNotifier,
+        width: width,
+        height: height,
+      );
+    } else {
+      uiModelStateNotifier.onPanEnd();
+    }
   }
 
   void _onTapSkip({
