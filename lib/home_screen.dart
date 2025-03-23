@@ -138,7 +138,7 @@ class _MemberCard extends StatelessWidget {
             Expanded(
               child: SizedBox(
                 width: double.infinity,
-                child: Image.asset('assets/member.png', fit: BoxFit.cover),
+                child: Image.asset('assets/member_01.png', fit: BoxFit.cover),
               ),
             ),
             Padding(
