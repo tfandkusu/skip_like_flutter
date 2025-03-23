@@ -249,5 +249,27 @@ void main() {
         atan2(100.0, 500.0),
       );
     });
+
+    test('onTapSkipとonAnimationEndでカードが正しくスキップされる', () {
+      // 1. スキップボタンをタップ
+      notifier.onTapSkip(width: 300.0, height: 500.0);
+      final skipState = container.read(homeUIModelStateNotifierProvider);
+      expect(skipState.isInAnimation, true);
+      expect(skipState.cardAppearance.offsetX, -300.0);
+      expect(skipState.cardAppearance.offsetY, 500.0);
+      expect(skipState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(skipState.animationBeginCardAppearance.offsetY, 0.0);
+
+      // 2. アニメーション終了
+      notifier.onAnimationEnd();
+      final finalState = container.read(homeUIModelStateNotifierProvider);
+      expect(finalState.isInAnimation, false);
+      expect(finalState.cardAppearance.offsetX, 0.0);
+      expect(finalState.cardAppearance.offsetY, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetY, 0.0);
+      expect(finalState.members.length, testMembers.length - 1);
+      expect(finalState.members[0], testMembers[1]);
+    });
   });
 }

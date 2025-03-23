@@ -5,13 +5,15 @@ import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
+const _animationDuration = Duration(milliseconds: 200);
+
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uiModel = ref.watch(homeUIModelStateNotifierProvider);
-    final uiModelStateNotifier = ref.watch(
+    final uiModelStateNotifier = ref.read(
       homeUIModelStateNotifierProvider.notifier,
     );
 
@@ -69,7 +71,11 @@ class HomeScreen extends HookConsumerWidget {
                       _DecisionButton(
                         icon: Icons.close,
                         onPressed: () {
-                          // TODO: スキップ処理を実装
+                          _onTapSkip(
+                            uiModelStateNotifier: uiModelStateNotifier,
+                            width: constraints.maxWidth,
+                            height: constraints.maxHeight,
+                          );
                         },
                         backgroundColor: Colors.red,
                       ),
@@ -129,6 +135,16 @@ class HomeScreen extends HookConsumerWidget {
     }
     return cardWidgets;
   }
+
+  void _onTapSkip({
+    required HomeUIModelStateNotifier uiModelStateNotifier,
+    required double width,
+    required double height,
+  }) async {
+    uiModelStateNotifier.onTapSkip(width: width, height: height);
+    await Future.delayed(_animationDuration);
+    uiModelStateNotifier.onAnimationEnd();
+  }
 }
 
 /// アニメーション付きメンバーカード
@@ -157,7 +173,7 @@ class _AnimatedMemberCard extends StatelessWidget {
             begin: animationBeginCardAppearance,
             end: cardAppearance,
           ),
-          duration: const Duration(milliseconds: 200),
+          duration: _animationDuration,
           builder:
               (context, cardAppearance, child) => _createTransform(
                 width: width,
@@ -182,7 +198,11 @@ class _AnimatedMemberCard extends StatelessWidget {
     required Widget child,
   }) {
     final matrix =
-        Matrix4.translationValues(0, cardAppearance.offsetY, 0) *
+        Matrix4.translationValues(
+          cardAppearance.offsetX,
+          cardAppearance.offsetY,
+          0,
+        ) *
         Matrix4.rotationZ(cardAppearance.angle);
     return Transform(
       origin: Offset(width / 2, height),
