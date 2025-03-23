@@ -160,14 +160,14 @@ class HomeScreen extends HookConsumerWidget {
     required double height,
   }) {
     final speed = details.velocity.pixelsPerSecond.dx;
-    if (speed < 0) {
+    if (speed < 0 && uiModel.cardAppearance.angle < 0) {
       // 左 Fling 操作
       _onTapSkip(
         uiModelStateNotifier: uiModelStateNotifier,
         width: width,
         height: height,
       );
-    } else if (speed > 0) {
+    } else if (speed > 0 && uiModel.cardAppearance.angle > 0) {
       // 右 Fling 操作
       _onTapLike(
         uiModelStateNotifier: uiModelStateNotifier,
