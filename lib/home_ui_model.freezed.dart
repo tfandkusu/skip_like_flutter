@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$HomeUIModel {
 
- bool get isInAnimation; double get width; double get height; double get startDragX; double get startDragY; CardAppearance get cardAppearance; CardAppearance get animationBeginCardAppearance;
+ List<Member> get members; bool get isInAnimation; double get width; double get height; double get startDragX; double get startDragY; CardAppearance get cardAppearance; CardAppearance get animationBeginCardAppearance;
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $HomeUIModelCopyWith<HomeUIModel> get copyWith => _$HomeUIModelCopyWithImpl<Home
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeUIModel&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HomeUIModel&&const DeepCollectionEquality().equals(other.members, members)&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isInAnimation,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(members),isInAnimation,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
 
 @override
 String toString() {
-  return 'HomeUIModel(isInAnimation: $isInAnimation, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
+  return 'HomeUIModel(members: $members, isInAnimation: $isInAnimation, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $HomeUIModelCopyWith<$Res>  {
   factory $HomeUIModelCopyWith(HomeUIModel value, $Res Function(HomeUIModel) _then) = _$HomeUIModelCopyWithImpl;
 @useResult
 $Res call({
- bool isInAnimation, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
+ List<Member> members, bool isInAnimation, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
 });
 
 
@@ -63,9 +63,10 @@ class _$HomeUIModelCopyWithImpl<$Res>
 
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isInAnimation = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? members = null,Object? isInAnimation = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
   return _then(_self.copyWith(
-isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
+members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
+as List<Member>,isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
 as bool,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as double,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
 as double,startDragX: null == startDragX ? _self.startDragX : startDragX // ignore: cast_nullable_to_non_nullable
@@ -101,8 +102,15 @@ $CardAppearanceCopyWith<$Res> get animationBeginCardAppearance {
 
 
 class _HomeUIModel implements HomeUIModel {
-  const _HomeUIModel({required this.isInAnimation, required this.width, required this.height, required this.startDragX, required this.startDragY, required this.cardAppearance, required this.animationBeginCardAppearance});
+  const _HomeUIModel({required final  List<Member> members, required this.isInAnimation, required this.width, required this.height, required this.startDragX, required this.startDragY, required this.cardAppearance, required this.animationBeginCardAppearance}): _members = members;
   
+
+ final  List<Member> _members;
+@override List<Member> get members {
+  if (_members is EqualUnmodifiableListView) return _members;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_members);
+}
 
 @override final  bool isInAnimation;
 @override final  double width;
@@ -122,16 +130,16 @@ _$HomeUIModelCopyWith<_HomeUIModel> get copyWith => __$HomeUIModelCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeUIModel&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HomeUIModel&&const DeepCollectionEquality().equals(other._members, _members)&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isInAnimation,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_members),isInAnimation,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
 
 @override
 String toString() {
-  return 'HomeUIModel(isInAnimation: $isInAnimation, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
+  return 'HomeUIModel(members: $members, isInAnimation: $isInAnimation, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
 }
 
 
@@ -142,7 +150,7 @@ abstract mixin class _$HomeUIModelCopyWith<$Res> implements $HomeUIModelCopyWith
   factory _$HomeUIModelCopyWith(_HomeUIModel value, $Res Function(_HomeUIModel) _then) = __$HomeUIModelCopyWithImpl;
 @override @useResult
 $Res call({
- bool isInAnimation, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
+ List<Member> members, bool isInAnimation, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
 });
 
 
@@ -159,9 +167,10 @@ class __$HomeUIModelCopyWithImpl<$Res>
 
 /// Create a copy of HomeUIModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isInAnimation = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? members = null,Object? isInAnimation = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
   return _then(_HomeUIModel(
-isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
+members: null == members ? _self._members : members // ignore: cast_nullable_to_non_nullable
+as List<Member>,isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
 as bool,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as double,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
 as double,startDragX: null == startDragX ? _self.startDragX : startDragX // ignore: cast_nullable_to_non_nullable

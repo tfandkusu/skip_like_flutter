@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skip_like_flutter/card_appearance_tween.dart';
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
+import 'package:skip_like_flutter/model/member.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
@@ -13,6 +14,7 @@ class HomeScreen extends HookConsumerWidget {
     final uiModelStateNotifier = ref.watch(
       homeUIModelStateNotifierProvider.notifier,
     );
+
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
       backgroundColor: Colors.grey.shade300,
@@ -44,35 +46,21 @@ class HomeScreen extends HookConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
                         32.0,
-                        16.0,
+                        32.0,
                         32.0,
                         16.0,
                       ),
-                      child:
-                          uiModel.isInAnimation
-                              ? TweenAnimationBuilder<CardAppearance>(
-                                tween: CardAppearanceTween(
-                                  begin: uiModel.animationBeginCardAppearance,
-                                  end: uiModel.cardAppearance,
-                                ),
-                                duration: const Duration(milliseconds: 200),
-                                builder:
-                                    (context, memberCardAppearance, child) =>
-                                        _createTransform(
-                                          width: constraints.maxWidth,
-                                          height: constraints.maxHeight,
-                                          cardAppearance:
-                                              uiModel.cardAppearance,
-                                          child: child!,
-                                        ),
-                                child: _MemberCard(),
-                              )
-                              : _createTransform(
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                                cardAppearance: uiModel.cardAppearance,
-                                child: _MemberCard(),
-                              ),
+                      child: Stack(
+                        children: _createCardWidgets(
+                          isInAnimation: uiModel.isInAnimation,
+                          width: constraints.maxWidth,
+                          height: constraints.maxHeight,
+                          cardAppearance: uiModel.cardAppearance,
+                          animationBeginCardAppearance:
+                              uiModel.animationBeginCardAppearance,
+                          visibleMembers: uiModel.visibleMembers,
+                        ),
+                      ),
                     ),
                   ),
                   Row(
@@ -106,6 +94,87 @@ class HomeScreen extends HookConsumerWidget {
     );
   }
 
+  List<Widget> _createCardWidgets({
+    required bool isInAnimation,
+    required double width,
+    required double height,
+    required CardAppearance cardAppearance,
+    required CardAppearance animationBeginCardAppearance,
+    required List<Member> visibleMembers,
+  }) {
+    List<Widget> cardWidgets = [];
+    for (var i = visibleMembers.length - 1; i >= 0; i--) {
+      if (i >= 1) {
+        cardWidgets.add(
+          Transform.translate(
+            offset: Offset(0, -16.0 * i),
+            child: _MemberCard(member: visibleMembers[i]),
+          ),
+        );
+      } else {
+        cardWidgets.add(
+          Transform.translate(
+            offset: Offset(0, -16.0 * i),
+            child: _AnimatedMemberCard(
+              isInAnimation: isInAnimation,
+              width: width,
+              height: height,
+              cardAppearance: cardAppearance,
+              animationBeginCardAppearance: animationBeginCardAppearance,
+              member: visibleMembers[i],
+            ),
+          ),
+        );
+      }
+    }
+    return cardWidgets;
+  }
+}
+
+/// アニメーション付きメンバーカード
+class _AnimatedMemberCard extends StatelessWidget {
+  final bool isInAnimation;
+  final double width;
+  final double height;
+  final CardAppearance cardAppearance;
+  final CardAppearance animationBeginCardAppearance;
+  final Member member;
+
+  const _AnimatedMemberCard({
+    required this.isInAnimation,
+    required this.width,
+    required this.height,
+    required this.cardAppearance,
+    required this.animationBeginCardAppearance,
+    required this.member,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return isInAnimation
+        ? TweenAnimationBuilder<CardAppearance>(
+          tween: CardAppearanceTween(
+            begin: animationBeginCardAppearance,
+            end: cardAppearance,
+          ),
+          duration: const Duration(milliseconds: 200),
+          builder:
+              (context, cardAppearance, child) => _createTransform(
+                width: width,
+                height: height,
+                cardAppearance: cardAppearance,
+                child: child!,
+              ),
+          child: _MemberCard(member: member),
+        )
+        : _createTransform(
+          width: width,
+          height: height,
+          cardAppearance: cardAppearance,
+          child: _MemberCard(member: member),
+        );
+  }
+
   Transform _createTransform({
     required double width,
     required double height,
@@ -125,7 +194,9 @@ class HomeScreen extends HookConsumerWidget {
 
 /// メンバーカード
 class _MemberCard extends StatelessWidget {
-  const _MemberCard();
+  final Member member;
+
+  const _MemberCard({required this.member});
 
   @override
   Widget build(BuildContext context) {
@@ -133,18 +204,27 @@ class _MemberCard extends StatelessWidget {
     return Expanded(
       child: Card(
         elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: const BorderSide(color: Colors.grey, width: 1),
+        ),
         child: Column(
           children: [
             Expanded(
               child: SizedBox(
                 width: double.infinity,
-                child: Image.asset('assets/member.png', fit: BoxFit.cover),
+                child: Image.asset(member.imagePath, fit: BoxFit.contain),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
-                children: [Text("24歳 東京", style: theme.textTheme.bodyLarge)],
+                children: [
+                  Text(
+                    "${member.age}歳 ${member.prefecture}",
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                ],
               ),
             ),
           ],
