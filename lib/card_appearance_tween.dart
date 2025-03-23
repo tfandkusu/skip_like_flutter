@@ -1,5 +1,5 @@
 import 'package:flutter/animation.dart';
-import 'package:skip_like_flutter/home_ui_model.dart';
+import 'package:skip_like_flutter/card_appearance.dart';
 
 class CardAppearanceTween extends Tween<CardAppearance> {
   CardAppearanceTween({required super.begin, required super.end});

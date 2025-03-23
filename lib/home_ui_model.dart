@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:skip_like_flutter/card_appearance.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
 part 'home_ui_model.freezed.dart';
@@ -16,15 +17,6 @@ abstract class HomeUIModel with _$HomeUIModel {
     required CardAppearance cardAppearance,
     required CardAppearance animationBeginCardAppearance,
   }) = _HomeUIModel;
-}
-
-@freezed
-abstract class CardAppearance with _$CardAppearance {
-  const factory CardAppearance({
-    required double offsetX,
-    required double offsetY,
-    required double angle,
-  }) = _CardAppearance;
 }
 
 extension HomeUiModelExtension on HomeUIModel {

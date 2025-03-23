@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skip_like_flutter/card_appearance.dart';
 import 'package:skip_like_flutter/card_appearance_tween.dart';
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
@@ -126,7 +125,7 @@ class HomeScreen extends HookConsumerWidget {
         cardWidgets.add(
           Transform.translate(
             offset: Offset(0, -16.0 * i),
-            child: _MemberCard(member: visibleMembers[i]),
+            child: _MemberCard(member: visibleMembers[i], alpha: 1.0),
           ),
         );
       } else {
@@ -171,14 +170,14 @@ class HomeScreen extends HookConsumerWidget {
         width: width,
         height: height,
       );
-    } else if (uiModel.cardAppearance.angle < -pi / 24) {
+    } else if (uiModel.cardAppearance.angle < -skipLikeThreshold) {
       // 左に7.5度以上ドラッグした
       _onTapSkip(
         uiModelStateNotifier: uiModelStateNotifier,
         width: width,
         height: height,
       );
-    } else if (uiModel.cardAppearance.angle > pi / 24) {
+    } else if (uiModel.cardAppearance.angle > skipLikeThreshold) {
       // 右に7.5度以上ドラッグした
       _onTapLike(
         uiModelStateNotifier: uiModelStateNotifier,
@@ -247,13 +246,13 @@ class _AnimatedMemberCard extends StatelessWidget {
                 cardAppearance: cardAppearance,
                 child: child!,
               ),
-          child: _MemberCard(member: member),
+          child: _MemberCard(member: member, alpha: cardAppearance.alpha),
         )
         : _createTransform(
           width: width,
           height: height,
           cardAppearance: cardAppearance,
-          child: _MemberCard(member: member),
+          child: _MemberCard(member: member, alpha: cardAppearance.alpha),
         );
   }
 
@@ -281,8 +280,9 @@ class _AnimatedMemberCard extends StatelessWidget {
 /// メンバーカード
 class _MemberCard extends StatelessWidget {
   final Member member;
+  final double alpha;
 
-  const _MemberCard({required this.member});
+  const _MemberCard({required this.member, required this.alpha});
 
   @override
   Widget build(BuildContext context) {
@@ -294,26 +294,29 @@ class _MemberCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           side: const BorderSide(color: Colors.grey, width: 1),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: SizedBox(
-                width: double.infinity,
-                child: Image.asset(member.imagePath, fit: BoxFit.contain),
+        child: Opacity(
+          opacity: alpha,
+          child: Column(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Image.asset(member.imagePath, fit: BoxFit.contain),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Text(
-                    "${member.age}歳 ${member.prefecture}",
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  children: [
+                    Text(
+                      "${member.age}歳 ${member.prefecture}",
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
