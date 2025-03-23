@@ -20,6 +20,7 @@ abstract class HomeUIModel with _$HomeUIModel {
 @freezed
 abstract class CardAppearance with _$CardAppearance {
   const factory CardAppearance({
+    required double offsetX,
     required double offsetY,
     required double angle,
   }) = _CardAppearance;

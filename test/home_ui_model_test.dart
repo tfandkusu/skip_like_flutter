@@ -12,8 +12,12 @@ void main() {
         height: 0.0,
         startDragX: 0.0,
         startDragY: 0.0,
-        cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
-        animationBeginCardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+        cardAppearance: CardAppearance(offsetX: 0.0, offsetY: 0.0, angle: 0.0),
+        animationBeginCardAppearance: CardAppearance(
+          offsetX: 0.0,
+          offsetY: 0.0,
+          angle: 0.0,
+        ),
       );
     }
 

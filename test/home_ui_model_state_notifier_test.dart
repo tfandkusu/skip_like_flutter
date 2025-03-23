@@ -59,8 +59,13 @@ void main() {
             height: 0.0,
             startDragX: 0.0,
             startDragY: 0.0,
-            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            cardAppearance: CardAppearance(
+              offsetX: 0.0,
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: 0.0,
               angle: 0.0,
             ),
@@ -77,8 +82,12 @@ void main() {
         height: 0.0,
         startDragX: 0.0,
         startDragY: 0.0,
-        cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
-        animationBeginCardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+        cardAppearance: CardAppearance(offsetX: 0.0, offsetY: 0.0, angle: 0.0),
+        animationBeginCardAppearance: CardAppearance(
+          offsetX: 0.0,
+          offsetY: 0.0,
+          angle: 0.0,
+        ),
       );
 
       final visibleMembers = uiModel.visibleMembers;
@@ -107,8 +116,13 @@ void main() {
             height: 500.0,
             startDragX: 150.0,
             startDragY: 250.0,
-            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            cardAppearance: CardAppearance(
+              offsetX: 0.0,
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: 0.0,
               angle: 0.0,
             ),
@@ -144,10 +158,12 @@ void main() {
             startDragX: 150.0,
             startDragY: 250.0,
             cardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: expectedOffsetY,
               angle: expectedAngle,
             ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: 0.0,
               angle: 0.0,
             ),
@@ -185,8 +201,13 @@ void main() {
             height: 500.0,
             startDragX: 150.0,
             startDragY: 250.0,
-            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            cardAppearance: CardAppearance(
+              offsetX: 0.0,
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: expectedOffsetY,
               angle: expectedAngle,
             ),

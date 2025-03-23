@@ -205,7 +205,7 @@ $CardAppearanceCopyWith<$Res> get animationBeginCardAppearance {
 /// @nodoc
 mixin _$CardAppearance {
 
- double get offsetY; double get angle;
+ double get offsetX; double get offsetY; double get angle;
 /// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -216,16 +216,16 @@ $CardAppearanceCopyWith<CardAppearance> get copyWith => _$CardAppearanceCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CardAppearance&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CardAppearance&&(identical(other.offsetX, offsetX) || other.offsetX == offsetX)&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,offsetY,angle);
+int get hashCode => Object.hash(runtimeType,offsetX,offsetY,angle);
 
 @override
 String toString() {
-  return 'CardAppearance(offsetY: $offsetY, angle: $angle)';
+  return 'CardAppearance(offsetX: $offsetX, offsetY: $offsetY, angle: $angle)';
 }
 
 
@@ -236,7 +236,7 @@ abstract mixin class $CardAppearanceCopyWith<$Res>  {
   factory $CardAppearanceCopyWith(CardAppearance value, $Res Function(CardAppearance) _then) = _$CardAppearanceCopyWithImpl;
 @useResult
 $Res call({
- double offsetY, double angle
+ double offsetX, double offsetY, double angle
 });
 
 
@@ -253,9 +253,10 @@ class _$CardAppearanceCopyWithImpl<$Res>
 
 /// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? offsetY = null,Object? angle = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? offsetX = null,Object? offsetY = null,Object? angle = null,}) {
   return _then(_self.copyWith(
-offsetY: null == offsetY ? _self.offsetY : offsetY // ignore: cast_nullable_to_non_nullable
+offsetX: null == offsetX ? _self.offsetX : offsetX // ignore: cast_nullable_to_non_nullable
+as double,offsetY: null == offsetY ? _self.offsetY : offsetY // ignore: cast_nullable_to_non_nullable
 as double,angle: null == angle ? _self.angle : angle // ignore: cast_nullable_to_non_nullable
 as double,
   ));
@@ -268,9 +269,10 @@ as double,
 
 
 class _CardAppearance implements CardAppearance {
-  const _CardAppearance({required this.offsetY, required this.angle});
+  const _CardAppearance({required this.offsetX, required this.offsetY, required this.angle});
   
 
+@override final  double offsetX;
 @override final  double offsetY;
 @override final  double angle;
 
@@ -284,16 +286,16 @@ _$CardAppearanceCopyWith<_CardAppearance> get copyWith => __$CardAppearanceCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CardAppearance&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CardAppearance&&(identical(other.offsetX, offsetX) || other.offsetX == offsetX)&&(identical(other.offsetY, offsetY) || other.offsetY == offsetY)&&(identical(other.angle, angle) || other.angle == angle));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,offsetY,angle);
+int get hashCode => Object.hash(runtimeType,offsetX,offsetY,angle);
 
 @override
 String toString() {
-  return 'CardAppearance(offsetY: $offsetY, angle: $angle)';
+  return 'CardAppearance(offsetX: $offsetX, offsetY: $offsetY, angle: $angle)';
 }
 
 
@@ -304,7 +306,7 @@ abstract mixin class _$CardAppearanceCopyWith<$Res> implements $CardAppearanceCo
   factory _$CardAppearanceCopyWith(_CardAppearance value, $Res Function(_CardAppearance) _then) = __$CardAppearanceCopyWithImpl;
 @override @useResult
 $Res call({
- double offsetY, double angle
+ double offsetX, double offsetY, double angle
 });
 
 
@@ -321,9 +323,10 @@ class __$CardAppearanceCopyWithImpl<$Res>
 
 /// Create a copy of CardAppearance
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? offsetY = null,Object? angle = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? offsetX = null,Object? offsetY = null,Object? angle = null,}) {
   return _then(_CardAppearance(
-offsetY: null == offsetY ? _self.offsetY : offsetY // ignore: cast_nullable_to_non_nullable
+offsetX: null == offsetX ? _self.offsetX : offsetX // ignore: cast_nullable_to_non_nullable
+as double,offsetY: null == offsetY ? _self.offsetY : offsetY // ignore: cast_nullable_to_non_nullable
 as double,angle: null == angle ? _self.angle : angle // ignore: cast_nullable_to_non_nullable
 as double,
   ));

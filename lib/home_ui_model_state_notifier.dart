@@ -41,8 +41,12 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
     height: 0,
     startDragX: 0,
     startDragY: 0,
-    cardAppearance: CardAppearance(offsetY: 0, angle: 0),
-    animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
+    cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
+    animationBeginCardAppearance: CardAppearance(
+      offsetX: 0,
+      offsetY: 0,
+      angle: 0,
+    ),
   );
 
   void onPanUpdate({required double dragX, required double dragY}) {
@@ -56,7 +60,7 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
 
   void onPanEnd() {
     state = state.copyWith(
-      cardAppearance: CardAppearance(offsetY: 0, angle: 0),
+      cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
       animationBeginCardAppearance: state.cardAppearance,
       isInAnimation: true,
     );
