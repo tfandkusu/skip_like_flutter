@@ -38,7 +38,22 @@ class HomeScreen extends HookConsumerWidget {
                 );
               },
               onPanEnd: (details) {
-                uiModelStateNotifier.onPanEnd();
+                final speed = details.velocity.pixelsPerSecond.dx;
+                if (speed < 0) {
+                  _onTapSkip(
+                    uiModelStateNotifier: uiModelStateNotifier,
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                  );
+                } else if (speed > 0) {
+                  _onTapLike(
+                    uiModelStateNotifier: uiModelStateNotifier,
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                  );
+                } else {
+                  uiModelStateNotifier.onPanEnd();
+                }
               },
               child: Column(
                 children: [
