@@ -8,6 +8,7 @@ abstract class HomeUIModel with _$HomeUIModel {
   const factory HomeUIModel({
     required List<Member> members,
     required bool isInAnimation,
+    required Duration animationDuration,
     required double width,
     required double height,
     required double startDragX,
@@ -20,6 +21,7 @@ abstract class HomeUIModel with _$HomeUIModel {
 @freezed
 abstract class CardAppearance with _$CardAppearance {
   const factory CardAppearance({
+    required double offsetX,
     required double offsetY,
     required double angle,
   }) = _CardAppearance;

@@ -55,12 +55,18 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: false,
+            animationDuration: const Duration(),
             width: 0.0,
             height: 0.0,
             startDragX: 0.0,
             startDragY: 0.0,
-            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            cardAppearance: CardAppearance(
+              offsetX: 0.0,
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: 0.0,
               angle: 0.0,
             ),
@@ -71,14 +77,19 @@ void main() {
 
     test('visibleMembersは最大3件のメンバーを返す', () {
       final uiModel = HomeUIModel(
+        animationDuration: const Duration(),
         members: testMembers,
         isInAnimation: false,
         width: 0.0,
         height: 0.0,
         startDragX: 0.0,
         startDragY: 0.0,
-        cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
-        animationBeginCardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+        cardAppearance: CardAppearance(offsetX: 0.0, offsetY: 0.0, angle: 0.0),
+        animationBeginCardAppearance: CardAppearance(
+          offsetX: 0.0,
+          offsetY: 0.0,
+          angle: 0.0,
+        ),
       );
 
       final visibleMembers = uiModel.visibleMembers;
@@ -103,12 +114,18 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: false,
+            animationDuration: const Duration(),
             width: 300.0,
             height: 500.0,
             startDragX: 150.0,
             startDragY: 250.0,
-            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            cardAppearance: CardAppearance(
+              offsetX: 0.0,
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: 0.0,
               angle: 0.0,
             ),
@@ -139,15 +156,18 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: false,
+            animationDuration: const Duration(),
             width: 300.0,
             height: 500.0,
             startDragX: 150.0,
             startDragY: 250.0,
             cardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: expectedOffsetY,
               angle: expectedAngle,
             ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: 0.0,
               angle: 0.0,
             ),
@@ -181,12 +201,18 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: true,
+            animationDuration: const Duration(milliseconds: 200),
             width: 300.0,
             height: 500.0,
             startDragX: 150.0,
             startDragY: 250.0,
-            cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+            cardAppearance: CardAppearance(
+              offsetX: 0.0,
+              offsetY: 0.0,
+              angle: 0.0,
+            ),
             animationBeginCardAppearance: CardAppearance(
+              offsetX: 0.0,
               offsetY: expectedOffsetY,
               angle: expectedAngle,
             ),
@@ -220,6 +246,7 @@ void main() {
       notifier.onPanEnd();
       final finalState = container.read(homeUIModelStateNotifierProvider);
       expect(finalState.isInAnimation, true);
+      expect(finalState.animationDuration, const Duration(milliseconds: 200));
       expect(finalState.cardAppearance.offsetY, 0.0);
       expect(finalState.cardAppearance.angle, 0.0);
       expect(finalState.animationBeginCardAppearance.offsetY, -100.0);
@@ -227,6 +254,52 @@ void main() {
         finalState.animationBeginCardAppearance.angle,
         atan2(100.0, 500.0),
       );
+    });
+
+    test('onTapSkipとonAnimationEndでカードが正しくスキップされる', () {
+      // 1. スキップボタンをタップ
+      notifier.onTapSkip(width: 300.0, height: 500.0);
+      final skipState = container.read(homeUIModelStateNotifierProvider);
+      expect(skipState.isInAnimation, true);
+      expect(skipState.animationDuration, const Duration(milliseconds: 500));
+      expect(skipState.cardAppearance.offsetX, -300.0);
+      expect(skipState.cardAppearance.offsetY, 500.0);
+      expect(skipState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(skipState.animationBeginCardAppearance.offsetY, 0.0);
+
+      // 2. アニメーション終了
+      notifier.onAnimationEnd();
+      final finalState = container.read(homeUIModelStateNotifierProvider);
+      expect(finalState.isInAnimation, false);
+      expect(finalState.cardAppearance.offsetX, 0.0);
+      expect(finalState.cardAppearance.offsetY, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetY, 0.0);
+      expect(finalState.members.length, testMembers.length - 1);
+      expect(finalState.members[0], testMembers[1]);
+    });
+
+    test('onTapLikeとonAnimationEndでカードが正しくいいねされる', () {
+      // 1. いいねボタンをタップ
+      notifier.onTapLike(width: 300.0, height: 500.0);
+      final likeState = container.read(homeUIModelStateNotifierProvider);
+      expect(likeState.isInAnimation, true);
+      expect(likeState.animationDuration, const Duration(milliseconds: 500));
+      expect(likeState.cardAppearance.offsetX, 300.0);
+      expect(likeState.cardAppearance.offsetY, 500.0);
+      expect(likeState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(likeState.animationBeginCardAppearance.offsetY, 0.0);
+
+      // 2. アニメーション終了
+      notifier.onAnimationEnd();
+      final finalState = container.read(homeUIModelStateNotifierProvider);
+      expect(finalState.isInAnimation, false);
+      expect(finalState.cardAppearance.offsetX, 0.0);
+      expect(finalState.cardAppearance.offsetY, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetY, 0.0);
+      expect(finalState.members.length, testMembers.length - 1);
+      expect(finalState.members[0], testMembers[1]);
     });
   });
 }

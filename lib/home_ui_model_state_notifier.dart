@@ -37,12 +37,17 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
       ),
     ],
     isInAnimation: false,
+    animationDuration: const Duration(),
     width: 0,
     height: 0,
     startDragX: 0,
     startDragY: 0,
-    cardAppearance: CardAppearance(offsetY: 0, angle: 0),
-    animationBeginCardAppearance: CardAppearance(offsetY: 0, angle: 0),
+    cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
+    animationBeginCardAppearance: CardAppearance(
+      offsetX: 0,
+      offsetY: 0,
+      angle: 0,
+    ),
   );
 
   void onPanUpdate({required double dragX, required double dragY}) {
@@ -56,9 +61,10 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
 
   void onPanEnd() {
     state = state.copyWith(
-      cardAppearance: CardAppearance(offsetY: 0, angle: 0),
+      cardAppearance: CardAppearance(offsetX: 0.0, offsetY: 0.0, angle: 0.0),
       animationBeginCardAppearance: state.cardAppearance,
       isInAnimation: true,
+      animationDuration: const Duration(milliseconds: 200),
     );
   }
 
@@ -74,6 +80,45 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
       height: height,
       startDragX: startDragX,
       startDragY: startDragY,
+    );
+  }
+
+  void onTapSkip({required double width, required double height}) {
+    state = state.copyWith(
+      isInAnimation: true,
+      animationDuration: const Duration(milliseconds: 500),
+      animationBeginCardAppearance: state.cardAppearance,
+      cardAppearance: CardAppearance(
+        offsetX: -width,
+        offsetY: height,
+        angle: state.cardAppearance.angle,
+      ),
+    );
+  }
+
+  void onTapLike({required double width, required double height}) {
+    state = state.copyWith(
+      isInAnimation: true,
+      animationDuration: const Duration(milliseconds: 500),
+      animationBeginCardAppearance: state.cardAppearance,
+      cardAppearance: CardAppearance(
+        offsetX: width,
+        offsetY: height,
+        angle: state.cardAppearance.angle,
+      ),
+    );
+  }
+
+  void onAnimationEnd() {
+    state = state.copyWith(
+      isInAnimation: false,
+      cardAppearance: CardAppearance(offsetX: 0.0, offsetY: 0.0, angle: 0.0),
+      animationBeginCardAppearance: CardAppearance(
+        offsetX: 0.0,
+        offsetY: 0.0,
+        angle: 0.0,
+      ),
+      members: state.members.skip(1).toList(),
     );
   }
 }
