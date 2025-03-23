@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:skip_like_flutter/model/member.dart';
 
 part 'home_ui_model_state_notifier.g.dart';
 
@@ -9,6 +10,32 @@ part 'home_ui_model_state_notifier.g.dart';
 class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
   @override
   HomeUIModel build() => HomeUIModel(
+    members: [
+      Member(
+        id: 1,
+        age: 33,
+        prefecture: '東京',
+        imagePath: 'assets/member_01.png',
+      ),
+      Member(
+        id: 2,
+        age: 28,
+        prefecture: '埼玉',
+        imagePath: 'assets/member_02.png',
+      ),
+      Member(
+        id: 3,
+        age: 24,
+        prefecture: '東京',
+        imagePath: 'assets/member_03.png',
+      ),
+      Member(
+        id: 4,
+        age: 31,
+        prefecture: '千葉',
+        imagePath: 'assets/member_04.png',
+      ),
+    ],
     isInAnimation: false,
     width: 0,
     height: 0,
