@@ -53,7 +53,7 @@ class HomeScreen extends HookConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
                         32.0,
-                        32.0,
+                        16.0,
                         32.0,
                         16.0,
                       ),
@@ -125,17 +125,22 @@ class HomeScreen extends HookConsumerWidget {
   }) {
     List<Widget> cardWidgets = [];
     for (var i = visibleMembers.length - 1; i >= 0; i--) {
+      final member = visibleMembers[i];
       if (i >= 1) {
         cardWidgets.add(
-          Transform.translate(
-            offset: Offset(0, -16.0 * i),
-            child: _MemberCard(member: visibleMembers[i], alpha: 1.0),
+          AnimatedPadding(
+            key: Key('card_${member.id}'),
+            duration: const Duration(milliseconds: 200),
+            padding: EdgeInsets.only(top: 8.0 * (2 - i), bottom: 8.0 * i),
+            child: _MemberCard(member: member, alpha: 1.0),
           ),
         );
       } else {
         cardWidgets.add(
-          Transform.translate(
-            offset: Offset(0, -16.0 * i),
+          AnimatedPadding(
+            key: Key('card_${member.id}'),
+            duration: const Duration(milliseconds: 200),
+            padding: EdgeInsets.only(top: 8.0 * (2 - i), bottom: 8.0 * i),
             child: _AnimatedMemberCard(
               isInAnimation: isInAnimation,
               animationDuration: animationDuration,
@@ -143,7 +148,7 @@ class HomeScreen extends HookConsumerWidget {
               height: height,
               cardAppearance: cardAppearance,
               animationBeginCardAppearance: animationBeginCardAppearance,
-              member: visibleMembers[i],
+              member: member,
             ),
           ),
         );
