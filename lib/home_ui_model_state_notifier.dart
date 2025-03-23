@@ -96,6 +96,19 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
     );
   }
 
+  void onTapLike({required double width, required double height}) {
+    state = state.copyWith(
+      isInAnimation: true,
+      animationDuration: const Duration(milliseconds: 500),
+      animationBeginCardAppearance: state.cardAppearance,
+      cardAppearance: CardAppearance(
+        offsetX: width,
+        offsetY: height,
+        angle: state.cardAppearance.angle,
+      ),
+    );
+  }
+
   void onAnimationEnd() {
     state = state.copyWith(
       isInAnimation: false,

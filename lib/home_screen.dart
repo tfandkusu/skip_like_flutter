@@ -82,7 +82,11 @@ class HomeScreen extends HookConsumerWidget {
                       _DecisionButton(
                         icon: Icons.favorite,
                         onPressed: () {
-                          // TODO: いいね！処理を実装
+                          _onTapLike(
+                            uiModelStateNotifier: uiModelStateNotifier,
+                            width: constraints.maxWidth,
+                            height: constraints.maxHeight,
+                          );
                         },
                         backgroundColor: Colors.green,
                       ),
@@ -143,6 +147,16 @@ class HomeScreen extends HookConsumerWidget {
     required double height,
   }) async {
     uiModelStateNotifier.onTapSkip(width: width, height: height);
+    await Future.delayed(const Duration(milliseconds: 500));
+    uiModelStateNotifier.onAnimationEnd();
+  }
+
+  void _onTapLike({
+    required HomeUIModelStateNotifier uiModelStateNotifier,
+    required double width,
+    required double height,
+  }) async {
+    uiModelStateNotifier.onTapLike(width: width, height: height);
     await Future.delayed(const Duration(milliseconds: 500));
     uiModelStateNotifier.onAnimationEnd();
   }

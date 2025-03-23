@@ -278,5 +278,28 @@ void main() {
       expect(finalState.members.length, testMembers.length - 1);
       expect(finalState.members[0], testMembers[1]);
     });
+
+    test('onTapLikeとonAnimationEndでカードが正しくいいねされる', () {
+      // 1. いいねボタンをタップ
+      notifier.onTapLike(width: 300.0, height: 500.0);
+      final likeState = container.read(homeUIModelStateNotifierProvider);
+      expect(likeState.isInAnimation, true);
+      expect(likeState.animationDuration, const Duration(milliseconds: 500));
+      expect(likeState.cardAppearance.offsetX, 300.0);
+      expect(likeState.cardAppearance.offsetY, 500.0);
+      expect(likeState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(likeState.animationBeginCardAppearance.offsetY, 0.0);
+
+      // 2. アニメーション終了
+      notifier.onAnimationEnd();
+      final finalState = container.read(homeUIModelStateNotifierProvider);
+      expect(finalState.isInAnimation, false);
+      expect(finalState.cardAppearance.offsetX, 0.0);
+      expect(finalState.cardAppearance.offsetY, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetX, 0.0);
+      expect(finalState.animationBeginCardAppearance.offsetY, 0.0);
+      expect(finalState.members.length, testMembers.length - 1);
+      expect(finalState.members[0], testMembers[1]);
+    });
   });
 }
