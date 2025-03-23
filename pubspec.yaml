@@ -30,3 +30,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/member_01.png
+    - assets/member_02.png
+    - assets/member_03.png
+    - assets/member_04.png
