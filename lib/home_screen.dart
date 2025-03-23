@@ -157,9 +157,9 @@ class _AnimatedMemberCard extends StatelessWidget {
             begin: animationBeginCardAppearance,
             end: cardAppearance,
           ),
-          duration: const Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 200),
           builder:
-              (context, memberCardAppearance, child) => _createTransform(
+              (context, cardAppearance, child) => _createTransform(
                 width: width,
                 height: height,
                 cardAppearance: cardAppearance,
