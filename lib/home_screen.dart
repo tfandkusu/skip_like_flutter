@@ -14,6 +14,7 @@ class HomeScreen extends HookConsumerWidget {
     final uiModelStateNotifier = ref.watch(
       homeUIModelStateNotifierProvider.notifier,
     );
+
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
       backgroundColor: Colors.grey.shade300,
@@ -50,17 +51,15 @@ class HomeScreen extends HookConsumerWidget {
                         16.0,
                       ),
                       child: Stack(
-                        children: [
-                          _AnimatedMemberCard(
-                            isInAnimation: uiModel.isInAnimation,
-                            width: constraints.maxWidth,
-                            height: constraints.maxHeight,
-                            cardAppearance: uiModel.cardAppearance,
-                            animationBeginCardAppearance:
-                                uiModel.animationBeginCardAppearance,
-                            member: uiModel.members.first,
-                          ),
-                        ],
+                        children: _createCardWidgets(
+                          isInAnimation: uiModel.isInAnimation,
+                          width: constraints.maxWidth,
+                          height: constraints.maxHeight,
+                          cardAppearance: uiModel.cardAppearance,
+                          animationBeginCardAppearance:
+                              uiModel.animationBeginCardAppearance,
+                          visibleMembers: uiModel.visibleMembers,
+                        ),
                       ),
                     ),
                   ),
@@ -94,6 +93,42 @@ class HomeScreen extends HookConsumerWidget {
       ),
     );
   }
+
+  List<Widget> _createCardWidgets({
+    required bool isInAnimation,
+    required double width,
+    required double height,
+    required CardAppearance cardAppearance,
+    required CardAppearance animationBeginCardAppearance,
+    required List<Member> visibleMembers,
+  }) {
+    List<Widget> cardWidgets = [];
+    for (var i = visibleMembers.length - 1; i >= 0; i--) {
+      if (i >= 1) {
+        cardWidgets.add(
+          Transform.translate(
+            offset: Offset(0, -16.0 * i),
+            child: _MemberCard(member: visibleMembers[i]),
+          ),
+        );
+      } else {
+        cardWidgets.add(
+          Transform.translate(
+            offset: Offset(0, -16.0 * i),
+            child: _AnimatedMemberCard(
+              isInAnimation: isInAnimation,
+              width: width,
+              height: height,
+              cardAppearance: cardAppearance,
+              animationBeginCardAppearance: animationBeginCardAppearance,
+              member: visibleMembers[i],
+            ),
+          ),
+        );
+      }
+    }
+    return cardWidgets;
+  }
 }
 
 /// アニメーション付きメンバーカード
@@ -122,7 +157,7 @@ class _AnimatedMemberCard extends StatelessWidget {
             begin: animationBeginCardAppearance,
             end: cardAppearance,
           ),
-          duration: const Duration(milliseconds: 200),
+          duration: const Duration(milliseconds: 500),
           builder:
               (context, memberCardAppearance, child) => _createTransform(
                 width: width,
@@ -169,6 +204,10 @@ class _MemberCard extends StatelessWidget {
     return Expanded(
       child: Card(
         elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+          side: const BorderSide(color: Colors.grey, width: 1),
+        ),
         child: Column(
           children: [
             Expanded(

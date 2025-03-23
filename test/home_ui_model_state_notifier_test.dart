@@ -69,6 +69,25 @@ void main() {
       );
     });
 
+    test('visibleMembersは最大3件のメンバーを返す', () {
+      final uiModel = HomeUIModel(
+        members: testMembers,
+        isInAnimation: false,
+        width: 0.0,
+        height: 0.0,
+        startDragX: 0.0,
+        startDragY: 0.0,
+        cardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+        animationBeginCardAppearance: CardAppearance(offsetY: 0.0, angle: 0.0),
+      );
+
+      final visibleMembers = uiModel.visibleMembers;
+      expect(visibleMembers.length, 3);
+      expect(visibleMembers[0], testMembers[0]);
+      expect(visibleMembers[1], testMembers[1]);
+      expect(visibleMembers[2], testMembers[2]);
+    });
+
     test('onPanStartでドラッグ開始位置とサイズが正しく設定される', () {
       notifier.onPanStart(
         width: 300.0,

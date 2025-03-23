@@ -24,3 +24,8 @@ abstract class CardAppearance with _$CardAppearance {
     required double angle,
   }) = _CardAppearance;
 }
+
+extension HomeUiModelExtension on HomeUIModel {
+  /// 表示可能な最大3件のメンバーを取得します
+  List<Member> get visibleMembers => members.take(3).toList();
+}
