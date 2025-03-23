@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:skip_like_flutter/card_appearance.dart';
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:skip_like_flutter/model/member.dart';
