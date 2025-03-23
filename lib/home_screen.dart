@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skip_like_flutter/card_appearance_tween.dart';
 import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
+import 'package:skip_like_flutter/model/member.dart';
 
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
@@ -44,35 +45,23 @@ class HomeScreen extends HookConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
                         32.0,
-                        16.0,
+                        32.0,
                         32.0,
                         16.0,
                       ),
-                      child:
-                          uiModel.isInAnimation
-                              ? TweenAnimationBuilder<CardAppearance>(
-                                tween: CardAppearanceTween(
-                                  begin: uiModel.animationBeginCardAppearance,
-                                  end: uiModel.cardAppearance,
-                                ),
-                                duration: const Duration(milliseconds: 200),
-                                builder:
-                                    (context, memberCardAppearance, child) =>
-                                        _createTransform(
-                                          width: constraints.maxWidth,
-                                          height: constraints.maxHeight,
-                                          cardAppearance:
-                                              uiModel.cardAppearance,
-                                          child: child!,
-                                        ),
-                                child: _MemberCard(),
-                              )
-                              : _createTransform(
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                                cardAppearance: uiModel.cardAppearance,
-                                child: _MemberCard(),
-                              ),
+                      child: Stack(
+                        children: [
+                          _AnimatedMemberCard(
+                            isInAnimation: uiModel.isInAnimation,
+                            width: constraints.maxWidth,
+                            height: constraints.maxHeight,
+                            cardAppearance: uiModel.cardAppearance,
+                            animationBeginCardAppearance:
+                                uiModel.animationBeginCardAppearance,
+                            member: uiModel.members.first,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -105,6 +94,51 @@ class HomeScreen extends HookConsumerWidget {
       ),
     );
   }
+}
+
+/// アニメーション付きメンバーカード
+class _AnimatedMemberCard extends StatelessWidget {
+  final bool isInAnimation;
+  final double width;
+  final double height;
+  final CardAppearance cardAppearance;
+  final CardAppearance animationBeginCardAppearance;
+  final Member member;
+
+  const _AnimatedMemberCard({
+    required this.isInAnimation,
+    required this.width,
+    required this.height,
+    required this.cardAppearance,
+    required this.animationBeginCardAppearance,
+    required this.member,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return isInAnimation
+        ? TweenAnimationBuilder<CardAppearance>(
+          tween: CardAppearanceTween(
+            begin: animationBeginCardAppearance,
+            end: cardAppearance,
+          ),
+          duration: const Duration(milliseconds: 200),
+          builder:
+              (context, memberCardAppearance, child) => _createTransform(
+                width: width,
+                height: height,
+                cardAppearance: cardAppearance,
+                child: child!,
+              ),
+          child: _MemberCard(member: member),
+        )
+        : _createTransform(
+          width: width,
+          height: height,
+          cardAppearance: cardAppearance,
+          child: _MemberCard(member: member),
+        );
+  }
 
   Transform _createTransform({
     required double width,
@@ -125,7 +159,9 @@ class HomeScreen extends HookConsumerWidget {
 
 /// メンバーカード
 class _MemberCard extends StatelessWidget {
-  const _MemberCard();
+  final Member member;
+
+  const _MemberCard({required this.member});
 
   @override
   Widget build(BuildContext context) {
@@ -138,13 +174,18 @@ class _MemberCard extends StatelessWidget {
             Expanded(
               child: SizedBox(
                 width: double.infinity,
-                child: Image.asset('assets/member_01.png', fit: BoxFit.cover),
+                child: Image.asset(member.imagePath, fit: BoxFit.contain),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
-                children: [Text("24歳 東京", style: theme.textTheme.bodyLarge)],
+                children: [
+                  Text(
+                    "${member.age}歳 ${member.prefecture}",
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                ],
               ),
             ),
           ],
