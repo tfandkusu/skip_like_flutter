@@ -75,7 +75,9 @@ class HomeScreen extends HookConsumerWidget {
                     children: [
                       Spacer(),
                       _DecisionButton(
+                        isInAnimation: uiModel.isInAnimation,
                         icon: Icons.close,
+                        scale: uiModel.cardAppearance.skipButtonScale,
                         onPressed: () {
                           _onTapSkip(
                             uiModelStateNotifier: uiModelStateNotifier,
@@ -87,7 +89,9 @@ class HomeScreen extends HookConsumerWidget {
                       ),
                       const SizedBox(width: 64),
                       _DecisionButton(
+                        isInAnimation: uiModel.isInAnimation,
                         icon: Icons.favorite,
+                        scale: uiModel.cardAppearance.likeButtonScale,
                         onPressed: () {
                           _onTapLike(
                             uiModelStateNotifier: uiModelStateNotifier,
@@ -325,14 +329,18 @@ class _MemberCard extends StatelessWidget {
 
 /// 下部のボタン
 class _DecisionButton extends StatelessWidget {
+  final bool isInAnimation;
   final IconData icon;
   final VoidCallback onPressed;
   final Color backgroundColor;
+  final double scale;
 
   const _DecisionButton({
+    required this.isInAnimation,
     required this.icon,
     required this.onPressed,
     required this.backgroundColor,
+    required this.scale,
   });
 
   @override
@@ -340,11 +348,15 @@ class _DecisionButton extends StatelessWidget {
     return SizedBox(
       width: 80,
       height: 80,
-      child: FloatingActionButton(
-        onPressed: onPressed,
-        backgroundColor: backgroundColor,
-        shape: const CircleBorder(),
-        child: Icon(icon, color: Colors.white),
+      child: AnimatedScale(
+        scale: isInAnimation ? 1.0 : scale,
+        duration: Duration(milliseconds: isInAnimation ? 200 : 0),
+        child: FloatingActionButton(
+          onPressed: onPressed,
+          backgroundColor: backgroundColor,
+          shape: const CircleBorder(),
+          child: Icon(icon, color: Colors.white),
+        ),
       ),
     );
   }
