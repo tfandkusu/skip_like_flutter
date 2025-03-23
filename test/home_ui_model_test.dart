@@ -4,7 +4,7 @@ import 'package:skip_like_flutter/model/member.dart';
 
 void main() {
   group('HomeUiModelExtension', () {
-    HomeUIModel _createHomeUIModel(List<Member> members) {
+    HomeUIModel createHomeUIModel(List<Member> members) {
       return HomeUIModel(
         members: members,
         isInAnimation: false,
@@ -45,7 +45,7 @@ void main() {
         ),
       ];
 
-      final uiModel = _createHomeUIModel(members);
+      final uiModel = createHomeUIModel(members);
 
       final visibleMembers = uiModel.visibleMembers;
       expect(visibleMembers.length, 3);
@@ -70,7 +70,7 @@ void main() {
         ),
       ];
 
-      final uiModel = _createHomeUIModel(members);
+      final uiModel = createHomeUIModel(members);
 
       final visibleMembers = uiModel.visibleMembers;
       expect(visibleMembers.length, 2);
@@ -79,7 +79,7 @@ void main() {
     });
 
     test('メンバーが空の場合は空のリストを返す', () {
-      final uiModel = _createHomeUIModel([]);
+      final uiModel = createHomeUIModel([]);
 
       final visibleMembers = uiModel.visibleMembers;
       expect(visibleMembers, isEmpty);
