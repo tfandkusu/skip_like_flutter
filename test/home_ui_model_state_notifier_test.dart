@@ -55,6 +55,7 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: false,
+            animationDuration: const Duration(),
             width: 0.0,
             height: 0.0,
             startDragX: 0.0,
@@ -76,6 +77,7 @@ void main() {
 
     test('visibleMembersは最大3件のメンバーを返す', () {
       final uiModel = HomeUIModel(
+        animationDuration: const Duration(),
         members: testMembers,
         isInAnimation: false,
         width: 0.0,
@@ -112,6 +114,7 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: false,
+            animationDuration: const Duration(),
             width: 300.0,
             height: 500.0,
             startDragX: 150.0,
@@ -153,6 +156,7 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: false,
+            animationDuration: const Duration(),
             width: 300.0,
             height: 500.0,
             startDragX: 150.0,
@@ -197,6 +201,7 @@ void main() {
           HomeUIModel(
             members: testMembers,
             isInAnimation: true,
+            animationDuration: const Duration(milliseconds: 200),
             width: 300.0,
             height: 500.0,
             startDragX: 150.0,
@@ -241,6 +246,7 @@ void main() {
       notifier.onPanEnd();
       final finalState = container.read(homeUIModelStateNotifierProvider);
       expect(finalState.isInAnimation, true);
+      expect(finalState.animationDuration, const Duration(milliseconds: 200));
       expect(finalState.cardAppearance.offsetY, 0.0);
       expect(finalState.cardAppearance.angle, 0.0);
       expect(finalState.animationBeginCardAppearance.offsetY, -100.0);
@@ -255,6 +261,7 @@ void main() {
       notifier.onTapSkip(width: 300.0, height: 500.0);
       final skipState = container.read(homeUIModelStateNotifierProvider);
       expect(skipState.isInAnimation, true);
+      expect(skipState.animationDuration, const Duration(milliseconds: 500));
       expect(skipState.cardAppearance.offsetX, -300.0);
       expect(skipState.cardAppearance.offsetY, 500.0);
       expect(skipState.animationBeginCardAppearance.offsetX, 0.0);

@@ -5,8 +5,6 @@ import 'package:skip_like_flutter/home_ui_model.dart';
 import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
-const _animationDuration = Duration(milliseconds: 200);
-
 class HomeScreen extends HookConsumerWidget {
   const HomeScreen({super.key});
 
@@ -55,6 +53,7 @@ class HomeScreen extends HookConsumerWidget {
                       child: Stack(
                         children: _createCardWidgets(
                           isInAnimation: uiModel.isInAnimation,
+                          animationDuration: uiModel.animationDuration,
                           width: constraints.maxWidth,
                           height: constraints.maxHeight,
                           cardAppearance: uiModel.cardAppearance,
@@ -102,6 +101,7 @@ class HomeScreen extends HookConsumerWidget {
 
   List<Widget> _createCardWidgets({
     required bool isInAnimation,
+    required Duration animationDuration,
     required double width,
     required double height,
     required CardAppearance cardAppearance,
@@ -123,6 +123,7 @@ class HomeScreen extends HookConsumerWidget {
             offset: Offset(0, -16.0 * i),
             child: _AnimatedMemberCard(
               isInAnimation: isInAnimation,
+              animationDuration: animationDuration,
               width: width,
               height: height,
               cardAppearance: cardAppearance,
@@ -142,7 +143,7 @@ class HomeScreen extends HookConsumerWidget {
     required double height,
   }) async {
     uiModelStateNotifier.onTapSkip(width: width, height: height);
-    await Future.delayed(_animationDuration);
+    await Future.delayed(const Duration(milliseconds: 500));
     uiModelStateNotifier.onAnimationEnd();
   }
 }
@@ -155,6 +156,7 @@ class _AnimatedMemberCard extends StatelessWidget {
   final CardAppearance cardAppearance;
   final CardAppearance animationBeginCardAppearance;
   final Member member;
+  final Duration animationDuration;
 
   const _AnimatedMemberCard({
     required this.isInAnimation,
@@ -163,6 +165,7 @@ class _AnimatedMemberCard extends StatelessWidget {
     required this.cardAppearance,
     required this.animationBeginCardAppearance,
     required this.member,
+    required this.animationDuration,
   });
 
   @override
@@ -173,7 +176,7 @@ class _AnimatedMemberCard extends StatelessWidget {
             begin: animationBeginCardAppearance,
             end: cardAppearance,
           ),
-          duration: _animationDuration,
+          duration: animationDuration,
           builder:
               (context, cardAppearance, child) => _createTransform(
                 width: width,

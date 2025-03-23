@@ -8,6 +8,7 @@ void main() {
       return HomeUIModel(
         members: members,
         isInAnimation: false,
+        animationDuration: const Duration(),
         width: 0.0,
         height: 0.0,
         startDragX: 0.0,

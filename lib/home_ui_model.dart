@@ -8,6 +8,7 @@ abstract class HomeUIModel with _$HomeUIModel {
   const factory HomeUIModel({
     required List<Member> members,
     required bool isInAnimation,
+    required Duration animationDuration,
     required double width,
     required double height,
     required double startDragX,
