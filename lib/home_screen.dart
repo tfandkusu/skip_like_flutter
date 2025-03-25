@@ -296,21 +296,23 @@ class _MemberCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Expanded(
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: const BorderSide(color: Colors.grey, width: 1),
-        ),
-        child: Opacity(
-          opacity: alpha,
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(color: Colors.grey, width: 1),
+      ),
+      child: Opacity(
+        opacity: alpha,
+        child: SizedBox.expand(
           child: Column(
             children: [
               Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Image.asset(member.imagePath, fit: BoxFit.contain),
+                child: Image.asset(
+                  member.imagePath,
+                  fit: BoxFit.contain,
+                  errorBuilder:
+                      (context, error, stackTrace) => const SizedBox.expand(),
                 ),
               ),
               Padding(
