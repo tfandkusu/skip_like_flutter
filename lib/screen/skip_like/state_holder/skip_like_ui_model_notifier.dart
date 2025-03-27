@@ -11,20 +11,20 @@ part 'skip_like_ui_model_notifier.g.dart';
 class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
   @override
   SkipLikeUiModel build() => SkipLikeUiModel(
-        members: _createMembers(),
-        isInAnimation: false,
-        animationDuration: const Duration(),
-        width: 0,
-        height: 0,
-        startDragX: 0,
-        startDragY: 0,
-        cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
-        animationBeginCardAppearance: CardAppearance(
-          offsetX: 0,
-          offsetY: 0,
-          angle: 0,
-        ),
-      );
+    members: _createMembers(),
+    isInAnimation: false,
+    animationDuration: const Duration(),
+    width: 0,
+    height: 0,
+    startDragX: 0,
+    startDragY: 0,
+    cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
+    animationBeginCardAppearance: CardAppearance(
+      offsetX: 0,
+      offsetY: 0,
+      angle: 0,
+    ),
+  );
 
   void onPanUpdate({required double dragX, required double dragY}) {
     state = state.copyWith(

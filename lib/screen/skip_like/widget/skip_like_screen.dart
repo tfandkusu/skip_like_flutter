@@ -59,16 +59,16 @@ class SkipLikeScreen extends HookConsumerWidget {
                       child: Stack(
                         children:
                             [_createBackWidget(stateNotifier.onResetPressed)] +
-                                _createCardWidgets(
-                                  isInAnimation: uiModel.isInAnimation,
-                                  animationDuration: uiModel.animationDuration,
-                                  width: constraints.maxWidth,
-                                  height: constraints.maxHeight,
-                                  cardAppearance: uiModel.cardAppearance,
-                                  animationBeginCardAppearance:
-                                      uiModel.animationBeginCardAppearance,
-                                  visibleMembers: uiModel.visibleMembers,
-                                ),
+                            _createCardWidgets(
+                              isInAnimation: uiModel.isInAnimation,
+                              animationDuration: uiModel.animationDuration,
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                              cardAppearance: uiModel.cardAppearance,
+                              animationBeginCardAppearance:
+                                  uiModel.animationBeginCardAppearance,
+                              visibleMembers: uiModel.visibleMembers,
+                            ),
                       ),
                     ),
                   ),
@@ -255,25 +255,26 @@ class _AnimatedMemberCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return isInAnimation
         ? TweenAnimationBuilder<CardAppearance>(
-            tween: CardAppearanceTween(
-              begin: animationBeginCardAppearance,
-              end: cardAppearance,
-            ),
-            duration: animationDuration,
-            builder: (context, cardAppearance, child) => _createTransform(
-              width: width,
-              height: height,
-              cardAppearance: cardAppearance,
-              child: child!,
-            ),
-            child: _MemberCard(member: member, alpha: cardAppearance.alpha),
-          )
+          tween: CardAppearanceTween(
+            begin: animationBeginCardAppearance,
+            end: cardAppearance,
+          ),
+          duration: animationDuration,
+          builder:
+              (context, cardAppearance, child) => _createTransform(
+                width: width,
+                height: height,
+                cardAppearance: cardAppearance,
+                child: child!,
+              ),
+          child: _MemberCard(member: member, alpha: cardAppearance.alpha),
+        )
         : _createTransform(
-            width: width,
-            height: height,
-            cardAppearance: cardAppearance,
-            child: _MemberCard(member: member, alpha: cardAppearance.alpha),
-          );
+          width: width,
+          height: height,
+          cardAppearance: cardAppearance,
+          child: _MemberCard(member: member, alpha: cardAppearance.alpha),
+        );
   }
 
   Transform _createTransform({
@@ -282,7 +283,8 @@ class _AnimatedMemberCard extends StatelessWidget {
     required CardAppearance cardAppearance,
     required Widget child,
   }) {
-    final matrix = Matrix4.translationValues(
+    final matrix =
+        Matrix4.translationValues(
           cardAppearance.offsetX,
           cardAppearance.offsetY,
           0,
@@ -321,8 +323,8 @@ class _MemberCard extends StatelessWidget {
                 child: Image.asset(
                   member.imagePath,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const SizedBox.expand(),
+                  errorBuilder:
+                      (context, error, stackTrace) => const SizedBox.expand(),
                 ),
               ),
               Padding(
