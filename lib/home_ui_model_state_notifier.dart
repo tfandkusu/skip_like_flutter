@@ -11,32 +11,7 @@ part 'home_ui_model_state_notifier.g.dart';
 class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
   @override
   HomeUIModel build() => HomeUIModel(
-    members: [
-      Member(
-        id: 1,
-        age: 33,
-        prefecture: '東京',
-        imagePath: 'assets/member_01.png',
-      ),
-      Member(
-        id: 2,
-        age: 28,
-        prefecture: '埼玉',
-        imagePath: 'assets/member_02.png',
-      ),
-      Member(
-        id: 3,
-        age: 24,
-        prefecture: '東京',
-        imagePath: 'assets/member_03.png',
-      ),
-      Member(
-        id: 4,
-        age: 31,
-        prefecture: '千葉',
-        imagePath: 'assets/member_04.png',
-      ),
-    ],
+    members: _createMembers(),
     isInAnimation: false,
     animationDuration: const Duration(),
     width: 0,
@@ -121,5 +96,38 @@ class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
       ),
       members: state.members.skip(1).toList(),
     );
+  }
+
+  void onResetPressed() {
+    state = state.copyWith(members: _createMembers());
+  }
+
+  List<Member> _createMembers() {
+    return [
+      Member(
+        id: 1,
+        age: 33,
+        prefecture: '東京',
+        imagePath: 'assets/member_01.png',
+      ),
+      Member(
+        id: 2,
+        age: 28,
+        prefecture: '埼玉',
+        imagePath: 'assets/member_02.png',
+      ),
+      Member(
+        id: 3,
+        age: 24,
+        prefecture: '東京',
+        imagePath: 'assets/member_03.png',
+      ),
+      Member(
+        id: 4,
+        age: 31,
+        prefecture: '千葉',
+        imagePath: 'assets/member_04.png',
+      ),
+    ];
   }
 }
