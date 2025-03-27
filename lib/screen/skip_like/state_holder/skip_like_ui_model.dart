@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:skip_like_flutter/card_appearance.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
-part 'home_ui_model.freezed.dart';
+part 'skip_like_ui_model.freezed.dart';
 
 @freezed
-abstract class HomeUIModel with _$HomeUIModel {
-  const factory HomeUIModel({
+abstract class SkipLikeUiModel with _$SkipLikeUiModel {
+  const factory SkipLikeUiModel({
     required List<Member> members,
     required bool isInAnimation,
     required Duration animationDuration,
@@ -16,10 +16,10 @@ abstract class HomeUIModel with _$HomeUIModel {
     required double startDragY,
     required CardAppearance cardAppearance,
     required CardAppearance animationBeginCardAppearance,
-  }) = _HomeUIModel;
+  }) = _SkipLikeUiModel;
 }
 
-extension HomeUiModelExtension on HomeUIModel {
+extension HomeUiModelExtension on SkipLikeUiModel {
   /// 表示可能な最大3件のメンバーを取得します
   List<Member> get visibleMembers => members.take(3).toList();
 }

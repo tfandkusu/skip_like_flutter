@@ -1,16 +1,16 @@
 import 'dart:math';
 
-import 'package:skip_like_flutter/card_appearance.dart';
-import 'package:skip_like_flutter/home_ui_model.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
-part 'home_ui_model_state_notifier.g.dart';
+part 'skip_like_ui_model_notifier.g.dart';
 
 @riverpod
-class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
+class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
   @override
-  HomeUIModel build() => HomeUIModel(
+  SkipLikeUiModel build() => SkipLikeUiModel(
     members: _createMembers(),
     isInAnimation: false,
     animationDuration: const Duration(),

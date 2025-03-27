@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:skip_like_flutter/card_appearance.dart';
-import 'package:skip_like_flutter/card_appearance_tween.dart';
-import 'package:skip_like_flutter/home_ui_model.dart';
-import 'package:skip_like_flutter/home_ui_model_state_notifier.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance_tween.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model_notifier.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
-class HomeScreen extends HookConsumerWidget {
-  const HomeScreen({super.key});
+class SkipLikeScreen extends HookConsumerWidget {
+  const SkipLikeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final uiModel = ref.watch(homeUIModelStateNotifierProvider);
-    final uiModelStateNotifier = ref.read(
-      homeUIModelStateNotifierProvider.notifier,
-    );
+    final uiModel = ref.watch(skipLikeUiModelNotifierProvider);
+    final stateNotifier = ref.watch(skipLikeUiModelNotifierProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Skip or Like ?')),
@@ -25,7 +23,7 @@ class HomeScreen extends HookConsumerWidget {
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
               onPanStart: (details) {
-                uiModelStateNotifier.onPanStart(
+                stateNotifier.onPanStart(
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
                   startDragX: details.localPosition.dx,
@@ -33,7 +31,7 @@ class HomeScreen extends HookConsumerWidget {
                 );
               },
               onPanUpdate: (details) {
-                uiModelStateNotifier.onPanUpdate(
+                stateNotifier.onPanUpdate(
                   dragX: details.localPosition.dx,
                   dragY: details.localPosition.dy,
                 );
@@ -42,7 +40,7 @@ class HomeScreen extends HookConsumerWidget {
                 _handlePanEnd(
                   details: details,
                   uiModel: uiModel,
-                  uiModelStateNotifier: uiModelStateNotifier,
+                  stateNotifier: stateNotifier,
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
                 );
@@ -60,11 +58,7 @@ class HomeScreen extends HookConsumerWidget {
                       ),
                       child: Stack(
                         children:
-                            [
-                              _createBackWidget(
-                                uiModelStateNotifier.onResetPressed,
-                              ),
-                            ] +
+                            [_createBackWidget(stateNotifier.onResetPressed)] +
                             _createCardWidgets(
                               isInAnimation: uiModel.isInAnimation,
                               animationDuration: uiModel.animationDuration,
@@ -88,7 +82,7 @@ class HomeScreen extends HookConsumerWidget {
                         scale: uiModel.cardAppearance.skipButtonScale,
                         onPressed: () {
                           _onTapSkip(
-                            uiModelStateNotifier: uiModelStateNotifier,
+                            uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
                             height: constraints.maxHeight,
                           );
@@ -102,7 +96,7 @@ class HomeScreen extends HookConsumerWidget {
                         scale: uiModel.cardAppearance.likeButtonScale,
                         onPressed: () {
                           _onTapLike(
-                            uiModelStateNotifier: uiModelStateNotifier,
+                            uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
                             height: constraints.maxHeight,
                           );
@@ -177,8 +171,8 @@ class HomeScreen extends HookConsumerWidget {
 
   void _handlePanEnd({
     required DragEndDetails details,
-    required HomeUIModel uiModel,
-    required HomeUIModelStateNotifier uiModelStateNotifier,
+    required SkipLikeUiModel uiModel,
+    required SkipLikeUiModelNotifier stateNotifier,
     required double width,
     required double height,
   }) {
@@ -186,38 +180,38 @@ class HomeScreen extends HookConsumerWidget {
     if (speed < 0 && uiModel.cardAppearance.angle < 0) {
       // 左 Fling 操作
       _onTapSkip(
-        uiModelStateNotifier: uiModelStateNotifier,
+        uiModelStateNotifier: stateNotifier,
         width: width,
         height: height,
       );
     } else if (speed > 0 && uiModel.cardAppearance.angle > 0) {
       // 右 Fling 操作
       _onTapLike(
-        uiModelStateNotifier: uiModelStateNotifier,
+        uiModelStateNotifier: stateNotifier,
         width: width,
         height: height,
       );
     } else if (uiModel.cardAppearance.angle < -skipLikeThreshold) {
       // 左に7.5度以上ドラッグした
       _onTapSkip(
-        uiModelStateNotifier: uiModelStateNotifier,
+        uiModelStateNotifier: stateNotifier,
         width: width,
         height: height,
       );
     } else if (uiModel.cardAppearance.angle > skipLikeThreshold) {
       // 右に7.5度以上ドラッグした
       _onTapLike(
-        uiModelStateNotifier: uiModelStateNotifier,
+        uiModelStateNotifier: stateNotifier,
         width: width,
         height: height,
       );
     } else {
-      uiModelStateNotifier.onPanEnd();
+      stateNotifier.onPanEnd();
     }
   }
 
   void _onTapSkip({
-    required HomeUIModelStateNotifier uiModelStateNotifier,
+    required SkipLikeUiModelNotifier uiModelStateNotifier,
     required double width,
     required double height,
   }) async {
@@ -227,7 +221,7 @@ class HomeScreen extends HookConsumerWidget {
   }
 
   void _onTapLike({
-    required HomeUIModelStateNotifier uiModelStateNotifier,
+    required SkipLikeUiModelNotifier uiModelStateNotifier,
     required double width,
     required double height,
   }) async {
