@@ -9,6 +9,7 @@ void main() {
       return SkipLikeUiModel(
         members: members,
         isInAnimation: false,
+        isIgnoreTouch: false,
         animationDuration: const Duration(),
         width: 0.0,
         height: 0.0,

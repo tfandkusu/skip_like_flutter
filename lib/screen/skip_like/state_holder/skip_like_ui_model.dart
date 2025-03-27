@@ -7,19 +7,30 @@ part 'skip_like_ui_model.freezed.dart';
 @freezed
 abstract class SkipLikeUiModel with _$SkipLikeUiModel {
   const factory SkipLikeUiModel({
+    // メンバー一覧。
     required List<Member> members,
+    // アニメーション中フラグ。true の時は TweenAnimationBuilder を設置する。
     required bool isInAnimation,
+    // 確定アニメーション中なので、タッチ操作を無効化する。
+    required bool isIgnoreTouch,
+    // アニメーションの持続時間。
     required Duration animationDuration,
+    // 画面の幅。
     required double width,
+    // 画面の高さ。
     required double height,
+    // ドラッグ開始位置のX座標。
     required double startDragX,
+    // ドラッグ開始位置のY座標。
     required double startDragY,
+    // カードの現在表示位置。
     required CardAppearance cardAppearance,
+    // アニメーション開始時のカードの表示位置。
     required CardAppearance animationBeginCardAppearance,
   }) = _SkipLikeUiModel;
 }
 
 extension HomeUiModelExtension on SkipLikeUiModel {
-  /// 表示可能な最大3件のメンバーを取得します
+  /// 表示する最大3件のメンバー
   List<Member> get visibleMembers => members.take(3).toList();
 }

@@ -13,6 +13,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
   SkipLikeUiModel build() => SkipLikeUiModel(
     members: _createMembers(),
     isInAnimation: false,
+    isIgnoreTouch: false,
     animationDuration: const Duration(),
     width: 0,
     height: 0,
@@ -25,6 +26,21 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
       angle: 0,
     ),
   );
+
+  void onPanStart({
+    required double width,
+    required double height,
+    required double startDragX,
+    required double startDragY,
+  }) {
+    state = state.copyWith(
+      isInAnimation: false,
+      width: width,
+      height: height,
+      startDragX: startDragX,
+      startDragY: startDragY,
+    );
+  }
 
   void onPanUpdate({required double dragX, required double dragY}) {
     state = state.copyWith(
@@ -44,24 +60,10 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
-  void onPanStart({
-    required double width,
-    required double height,
-    required double startDragX,
-    required double startDragY,
-  }) {
-    state = state.copyWith(
-      isInAnimation: false,
-      width: width,
-      height: height,
-      startDragX: startDragX,
-      startDragY: startDragY,
-    );
-  }
-
   void onTapSkip({required double width, required double height}) {
     state = state.copyWith(
       isInAnimation: true,
+      isIgnoreTouch: true,
       animationDuration: const Duration(milliseconds: 500),
       animationBeginCardAppearance: state.cardAppearance,
       cardAppearance: CardAppearance(
@@ -75,6 +77,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
   void onTapLike({required double width, required double height}) {
     state = state.copyWith(
       isInAnimation: true,
+      isIgnoreTouch: true,
       animationDuration: const Duration(milliseconds: 500),
       animationBeginCardAppearance: state.cardAppearance,
       cardAppearance: CardAppearance(
@@ -88,6 +91,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
   void onAnimationEnd() {
     state = state.copyWith(
       isInAnimation: false,
+      isIgnoreTouch: false,
       cardAppearance: CardAppearance(offsetX: 0.0, offsetY: 0.0, angle: 0.0),
       animationBeginCardAppearance: CardAppearance(
         offsetX: 0.0,

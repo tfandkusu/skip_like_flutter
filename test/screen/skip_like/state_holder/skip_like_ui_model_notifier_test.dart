@@ -7,7 +7,7 @@ import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_mod
 import 'package:skip_like_flutter/model/member.dart';
 
 void main() {
-  group('HomeUIModelStateNotifier', () {
+  group('SkipLikeUiModelNotifier', () {
     late ProviderContainer container;
     late SkipLikeUiModelNotifier notifier;
 
@@ -56,6 +56,7 @@ void main() {
           SkipLikeUiModel(
             members: testMembers,
             isInAnimation: false,
+            isIgnoreTouch: false,
             animationDuration: const Duration(),
             width: 0.0,
             height: 0.0,
@@ -81,6 +82,7 @@ void main() {
         animationDuration: const Duration(),
         members: testMembers,
         isInAnimation: false,
+        isIgnoreTouch: false,
         width: 0.0,
         height: 0.0,
         startDragX: 0.0,
@@ -115,6 +117,7 @@ void main() {
           SkipLikeUiModel(
             members: testMembers,
             isInAnimation: false,
+            isIgnoreTouch: false,
             animationDuration: const Duration(),
             width: 300.0,
             height: 500.0,
@@ -157,6 +160,7 @@ void main() {
           SkipLikeUiModel(
             members: testMembers,
             isInAnimation: false,
+            isIgnoreTouch: false,
             animationDuration: const Duration(),
             width: 300.0,
             height: 500.0,
@@ -202,6 +206,7 @@ void main() {
           SkipLikeUiModel(
             members: testMembers,
             isInAnimation: true,
+            isIgnoreTouch: false,
             animationDuration: const Duration(milliseconds: 200),
             width: 300.0,
             height: 500.0,

@@ -15,7 +15,17 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$SkipLikeUiModel {
 
- List<Member> get members; bool get isInAnimation; Duration get animationDuration; double get width; double get height; double get startDragX; double get startDragY; CardAppearance get cardAppearance; CardAppearance get animationBeginCardAppearance;
+// メンバー一覧。
+ List<Member> get members;// アニメーション中フラグ。true の時は TweenAnimationBuilder を設置する。
+ bool get isInAnimation;// 確定アニメーション中なので、タッチ操作を無効化する。
+ bool get isIgnoreTouch;// アニメーションの持続時間。
+ Duration get animationDuration;// 画面の幅。
+ double get width;// 画面の高さ。
+ double get height;// ドラッグ開始位置のX座標。
+ double get startDragX;// ドラッグ開始位置のY座標。
+ double get startDragY;// カードの現在表示位置。
+ CardAppearance get cardAppearance;// アニメーション開始時のカードの表示位置。
+ CardAppearance get animationBeginCardAppearance;
 /// Create a copy of SkipLikeUiModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +36,16 @@ $SkipLikeUiModelCopyWith<SkipLikeUiModel> get copyWith => _$SkipLikeUiModelCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SkipLikeUiModel&&const DeepCollectionEquality().equals(other.members, members)&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.animationDuration, animationDuration) || other.animationDuration == animationDuration)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SkipLikeUiModel&&const DeepCollectionEquality().equals(other.members, members)&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.isIgnoreTouch, isIgnoreTouch) || other.isIgnoreTouch == isIgnoreTouch)&&(identical(other.animationDuration, animationDuration) || other.animationDuration == animationDuration)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(members),isInAnimation,animationDuration,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(members),isInAnimation,isIgnoreTouch,animationDuration,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
 
 @override
 String toString() {
-  return 'SkipLikeUiModel(members: $members, isInAnimation: $isInAnimation, animationDuration: $animationDuration, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
+  return 'SkipLikeUiModel(members: $members, isInAnimation: $isInAnimation, isIgnoreTouch: $isIgnoreTouch, animationDuration: $animationDuration, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
 }
 
 
@@ -46,7 +56,7 @@ abstract mixin class $SkipLikeUiModelCopyWith<$Res>  {
   factory $SkipLikeUiModelCopyWith(SkipLikeUiModel value, $Res Function(SkipLikeUiModel) _then) = _$SkipLikeUiModelCopyWithImpl;
 @useResult
 $Res call({
- List<Member> members, bool isInAnimation, Duration animationDuration, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
+ List<Member> members, bool isInAnimation, bool isIgnoreTouch, Duration animationDuration, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
 });
 
 
@@ -63,10 +73,11 @@ class _$SkipLikeUiModelCopyWithImpl<$Res>
 
 /// Create a copy of SkipLikeUiModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? members = null,Object? isInAnimation = null,Object? animationDuration = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? members = null,Object? isInAnimation = null,Object? isIgnoreTouch = null,Object? animationDuration = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
   return _then(_self.copyWith(
 members: null == members ? _self.members : members // ignore: cast_nullable_to_non_nullable
 as List<Member>,isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
+as bool,isIgnoreTouch: null == isIgnoreTouch ? _self.isIgnoreTouch : isIgnoreTouch // ignore: cast_nullable_to_non_nullable
 as bool,animationDuration: null == animationDuration ? _self.animationDuration : animationDuration // ignore: cast_nullable_to_non_nullable
 as Duration,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as double,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable
@@ -103,23 +114,35 @@ $CardAppearanceCopyWith<$Res> get animationBeginCardAppearance {
 
 
 class _SkipLikeUiModel implements SkipLikeUiModel {
-  const _SkipLikeUiModel({required final  List<Member> members, required this.isInAnimation, required this.animationDuration, required this.width, required this.height, required this.startDragX, required this.startDragY, required this.cardAppearance, required this.animationBeginCardAppearance}): _members = members;
+  const _SkipLikeUiModel({required final  List<Member> members, required this.isInAnimation, required this.isIgnoreTouch, required this.animationDuration, required this.width, required this.height, required this.startDragX, required this.startDragY, required this.cardAppearance, required this.animationBeginCardAppearance}): _members = members;
   
 
+// メンバー一覧。
  final  List<Member> _members;
+// メンバー一覧。
 @override List<Member> get members {
   if (_members is EqualUnmodifiableListView) return _members;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_members);
 }
 
+// アニメーション中フラグ。true の時は TweenAnimationBuilder を設置する。
 @override final  bool isInAnimation;
+// 確定アニメーション中なので、タッチ操作を無効化する。
+@override final  bool isIgnoreTouch;
+// アニメーションの持続時間。
 @override final  Duration animationDuration;
+// 画面の幅。
 @override final  double width;
+// 画面の高さ。
 @override final  double height;
+// ドラッグ開始位置のX座標。
 @override final  double startDragX;
+// ドラッグ開始位置のY座標。
 @override final  double startDragY;
+// カードの現在表示位置。
 @override final  CardAppearance cardAppearance;
+// アニメーション開始時のカードの表示位置。
 @override final  CardAppearance animationBeginCardAppearance;
 
 /// Create a copy of SkipLikeUiModel
@@ -132,16 +155,16 @@ _$SkipLikeUiModelCopyWith<_SkipLikeUiModel> get copyWith => __$SkipLikeUiModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SkipLikeUiModel&&const DeepCollectionEquality().equals(other._members, _members)&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.animationDuration, animationDuration) || other.animationDuration == animationDuration)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SkipLikeUiModel&&const DeepCollectionEquality().equals(other._members, _members)&&(identical(other.isInAnimation, isInAnimation) || other.isInAnimation == isInAnimation)&&(identical(other.isIgnoreTouch, isIgnoreTouch) || other.isIgnoreTouch == isIgnoreTouch)&&(identical(other.animationDuration, animationDuration) || other.animationDuration == animationDuration)&&(identical(other.width, width) || other.width == width)&&(identical(other.height, height) || other.height == height)&&(identical(other.startDragX, startDragX) || other.startDragX == startDragX)&&(identical(other.startDragY, startDragY) || other.startDragY == startDragY)&&(identical(other.cardAppearance, cardAppearance) || other.cardAppearance == cardAppearance)&&(identical(other.animationBeginCardAppearance, animationBeginCardAppearance) || other.animationBeginCardAppearance == animationBeginCardAppearance));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_members),isInAnimation,animationDuration,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_members),isInAnimation,isIgnoreTouch,animationDuration,width,height,startDragX,startDragY,cardAppearance,animationBeginCardAppearance);
 
 @override
 String toString() {
-  return 'SkipLikeUiModel(members: $members, isInAnimation: $isInAnimation, animationDuration: $animationDuration, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
+  return 'SkipLikeUiModel(members: $members, isInAnimation: $isInAnimation, isIgnoreTouch: $isIgnoreTouch, animationDuration: $animationDuration, width: $width, height: $height, startDragX: $startDragX, startDragY: $startDragY, cardAppearance: $cardAppearance, animationBeginCardAppearance: $animationBeginCardAppearance)';
 }
 
 
@@ -152,7 +175,7 @@ abstract mixin class _$SkipLikeUiModelCopyWith<$Res> implements $SkipLikeUiModel
   factory _$SkipLikeUiModelCopyWith(_SkipLikeUiModel value, $Res Function(_SkipLikeUiModel) _then) = __$SkipLikeUiModelCopyWithImpl;
 @override @useResult
 $Res call({
- List<Member> members, bool isInAnimation, Duration animationDuration, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
+ List<Member> members, bool isInAnimation, bool isIgnoreTouch, Duration animationDuration, double width, double height, double startDragX, double startDragY, CardAppearance cardAppearance, CardAppearance animationBeginCardAppearance
 });
 
 
@@ -169,10 +192,11 @@ class __$SkipLikeUiModelCopyWithImpl<$Res>
 
 /// Create a copy of SkipLikeUiModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? members = null,Object? isInAnimation = null,Object? animationDuration = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? members = null,Object? isInAnimation = null,Object? isIgnoreTouch = null,Object? animationDuration = null,Object? width = null,Object? height = null,Object? startDragX = null,Object? startDragY = null,Object? cardAppearance = null,Object? animationBeginCardAppearance = null,}) {
   return _then(_SkipLikeUiModel(
 members: null == members ? _self._members : members // ignore: cast_nullable_to_non_nullable
 as List<Member>,isInAnimation: null == isInAnimation ? _self.isInAnimation : isInAnimation // ignore: cast_nullable_to_non_nullable
+as bool,isIgnoreTouch: null == isIgnoreTouch ? _self.isIgnoreTouch : isIgnoreTouch // ignore: cast_nullable_to_non_nullable
 as bool,animationDuration: null == animationDuration ? _self.animationDuration : animationDuration // ignore: cast_nullable_to_non_nullable
 as Duration,width: null == width ? _self.width : width // ignore: cast_nullable_to_non_nullable
 as double,height: null == height ? _self.height : height // ignore: cast_nullable_to_non_nullable

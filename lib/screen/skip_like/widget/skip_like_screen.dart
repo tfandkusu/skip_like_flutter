@@ -23,6 +23,7 @@ class SkipLikeScreen extends HookConsumerWidget {
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
               onPanStart: (details) {
+                if (uiModel.isIgnoreTouch) return;
                 stateNotifier.onPanStart(
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
@@ -31,12 +32,14 @@ class SkipLikeScreen extends HookConsumerWidget {
                 );
               },
               onPanUpdate: (details) {
+                if (uiModel.isIgnoreTouch) return;
                 stateNotifier.onPanUpdate(
                   dragX: details.localPosition.dx,
                   dragY: details.localPosition.dy,
                 );
               },
               onPanEnd: (details) {
+                if (uiModel.isIgnoreTouch) return;
                 _handlePanEnd(
                   details: details,
                   uiModel: uiModel,
@@ -81,6 +84,7 @@ class SkipLikeScreen extends HookConsumerWidget {
                         icon: Icons.close,
                         scale: uiModel.cardAppearance.skipButtonScale,
                         onPressed: () {
+                          if (uiModel.isIgnoreTouch) return;
                           _onTapSkip(
                             uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
@@ -95,6 +99,7 @@ class SkipLikeScreen extends HookConsumerWidget {
                         icon: Icons.favorite,
                         scale: uiModel.cardAppearance.likeButtonScale,
                         onPressed: () {
+                          if (uiModel.isIgnoreTouch) return;
                           _onTapLike(
                             uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
