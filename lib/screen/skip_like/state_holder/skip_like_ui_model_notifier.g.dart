@@ -12,12 +12,15 @@ String _$skipLikeUiModelNotifierHash() =>
 /// See also [SkipLikeUiModelNotifier].
 @ProviderFor(SkipLikeUiModelNotifier)
 final skipLikeUiModelNotifierProvider = AutoDisposeNotifierProvider<
-    SkipLikeUiModelNotifier, SkipLikeUiModel>.internal(
+  SkipLikeUiModelNotifier,
+  SkipLikeUiModel
+>.internal(
   SkipLikeUiModelNotifier.new,
   name: r'skipLikeUiModelNotifierProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$skipLikeUiModelNotifierHash,
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$skipLikeUiModelNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
