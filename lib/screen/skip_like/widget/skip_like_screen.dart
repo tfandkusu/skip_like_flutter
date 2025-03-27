@@ -32,14 +32,14 @@ class SkipLikeScreen extends HookConsumerWidget {
                 );
               },
               onPanUpdate: (details) {
-                if (uiModel.isIgnoreTouch) return;
+                if (!uiModel.isGestureDetectionStart) return;
                 stateNotifier.onPanUpdate(
                   dragX: details.localPosition.dx,
                   dragY: details.localPosition.dy,
                 );
               },
               onPanEnd: (details) {
-                if (uiModel.isIgnoreTouch) return;
+                if (!uiModel.isGestureDetectionStart) return;
                 _handlePanEnd(
                   details: details,
                   uiModel: uiModel,
@@ -47,6 +47,10 @@ class SkipLikeScreen extends HookConsumerWidget {
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
                 );
+              },
+              onPanCancel: () {
+                if (!uiModel.isGestureDetectionStart) return;
+                stateNotifier.onPanCancel();
               },
               child: Column(
                 children: [

@@ -11,6 +11,8 @@ abstract class SkipLikeUiModel with _$SkipLikeUiModel {
     required List<Member> members,
     // アニメーション中フラグ。true の時は TweenAnimationBuilder を設置する。
     required bool isInAnimation,
+    // ジェスチャー認識開始フラグ。
+    required bool isGestureDetectionStart,
     // 確定アニメーション中なので、タッチ操作を無効化する。
     required bool isIgnoreTouch,
     // アニメーションの持続時間。

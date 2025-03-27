@@ -7,7 +7,7 @@ part of 'skip_like_ui_model_notifier.dart';
 // **************************************************************************
 
 String _$skipLikeUiModelNotifierHash() =>
-    r'13f85482b2d6823d0aa627401ed230d812680920';
+    r'efdb86deb9c7c2d0ae059864e3a0cd9b814df106';
 
 /// See also [SkipLikeUiModelNotifier].
 @ProviderFor(SkipLikeUiModelNotifier)
