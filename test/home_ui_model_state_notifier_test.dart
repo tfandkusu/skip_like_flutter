@@ -302,5 +302,27 @@ void main() {
       expect(finalState.members.length, testMembers.length - 1);
       expect(finalState.members[0], testMembers[1]);
     });
+
+    test('onResetPressedでメンバーリストが初期状態に戻る', () {
+      // 1. スキップボタンをタップ
+      notifier.onTapSkip(width: 300.0, height: 500.0);
+      notifier.onAnimationEnd();
+      final state1 = container.read(homeUIModelStateNotifierProvider);
+      expect(state1.members.length, testMembers.length - 1);
+      expect(state1.members[0], testMembers[1]);
+
+      // 2. いいねボタンをタップ
+      notifier.onTapLike(width: 300.0, height: 500.0);
+      notifier.onAnimationEnd();
+      final state2 = container.read(homeUIModelStateNotifierProvider);
+      expect(state2.members.length, testMembers.length - 2);
+      expect(state2.members[0], testMembers[2]);
+
+      // 3. リセットボタンをタップ
+      notifier.onResetPressed();
+      final state3 = container.read(homeUIModelStateNotifierProvider);
+      expect(state3.members.length, testMembers.length);
+      expect(state3.members, testMembers);
+    });
   });
 }
