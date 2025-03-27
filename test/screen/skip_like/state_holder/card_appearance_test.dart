@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:skip_like_flutter/card_appearance.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
 
 void main() {
   group('CardAppearanceExtension', () {

@@ -7,7 +7,7 @@ import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_mod
 import 'package:skip_like_flutter/model/member.dart';
 
 void main() {
-  group('HomeUIModelStateNotifier', () {
+  group('SkipLikeUiModelNotifier', () {
     late ProviderContainer container;
     late SkipLikeUiModelNotifier notifier;
 

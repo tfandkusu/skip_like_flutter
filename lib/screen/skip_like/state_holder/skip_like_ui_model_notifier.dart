@@ -1,30 +1,30 @@
 import 'dart:math';
 
-import 'package:skip_like_flutter/card_appearance.dart';
-import 'package:skip_like_flutter/home_ui_model.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
-part 'home_ui_model_state_notifier.g.dart';
+part 'skip_like_ui_model_notifier.g.dart';
 
 @riverpod
-class HomeUIModelStateNotifier extends _$HomeUIModelStateNotifier {
+class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
   @override
-  HomeUIModel build() => HomeUIModel(
-    members: _createMembers(),
-    isInAnimation: false,
-    animationDuration: const Duration(),
-    width: 0,
-    height: 0,
-    startDragX: 0,
-    startDragY: 0,
-    cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
-    animationBeginCardAppearance: CardAppearance(
-      offsetX: 0,
-      offsetY: 0,
-      angle: 0,
-    ),
-  );
+  SkipLikeUiModel build() => SkipLikeUiModel(
+        members: _createMembers(),
+        isInAnimation: false,
+        animationDuration: const Duration(),
+        width: 0,
+        height: 0,
+        startDragX: 0,
+        startDragY: 0,
+        cardAppearance: CardAppearance(offsetX: 0, offsetY: 0, angle: 0),
+        animationBeginCardAppearance: CardAppearance(
+          offsetX: 0,
+          offsetY: 0,
+          angle: 0,
+        ),
+      );
 
   void onPanUpdate({required double dragX, required double dragY}) {
     state = state.copyWith(

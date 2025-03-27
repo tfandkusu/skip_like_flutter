@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:skip_like_flutter/card_appearance.dart';
-import 'package:skip_like_flutter/home_ui_model.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
+import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model.dart';
 import 'package:skip_like_flutter/model/member.dart';
 
 void main() {
-  group('HomeUiModelExtension', () {
-    HomeUIModel createHomeUIModel(List<Member> members) {
-      return HomeUIModel(
+  group('SkipLikeUiModelExtension', () {
+    SkipLikeUiModel createHomeUIModel(List<Member> members) {
+      return SkipLikeUiModel(
         members: members,
         isInAnimation: false,
         animationDuration: const Duration(),
