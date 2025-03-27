@@ -49,6 +49,7 @@ class HomeScreen extends HookConsumerWidget {
               },
               child: Column(
                 children: [
+                  // カード表示部
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(
@@ -58,19 +59,26 @@ class HomeScreen extends HookConsumerWidget {
                         16.0,
                       ),
                       child: Stack(
-                        children: _createCardWidgets(
-                          isInAnimation: uiModel.isInAnimation,
-                          animationDuration: uiModel.animationDuration,
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight,
-                          cardAppearance: uiModel.cardAppearance,
-                          animationBeginCardAppearance:
-                              uiModel.animationBeginCardAppearance,
-                          visibleMembers: uiModel.visibleMembers,
-                        ),
+                        children:
+                            [
+                              _createBackWidget(
+                                uiModelStateNotifier.onResetPressed,
+                              ),
+                            ] +
+                            _createCardWidgets(
+                              isInAnimation: uiModel.isInAnimation,
+                              animationDuration: uiModel.animationDuration,
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                              cardAppearance: uiModel.cardAppearance,
+                              animationBeginCardAppearance:
+                                  uiModel.animationBeginCardAppearance,
+                              visibleMembers: uiModel.visibleMembers,
+                            ),
                       ),
                     ),
                   ),
+                  // スキップ、いいねボタン表示部
                   Row(
                     children: [
                       Spacer(),
@@ -111,6 +119,16 @@ class HomeScreen extends HookConsumerWidget {
           },
         ),
       ),
+    );
+  }
+
+  /// カードの裏にある Widget を作成する。
+  ///
+  /// リセットボタンがあり、押すと初期状態に戻る。
+  Widget _createBackWidget(VoidCallback onResetPressed) {
+    return Container(
+      alignment: Alignment.center,
+      child: ElevatedButton(onPressed: onResetPressed, child: Text("Reset")),
     );
   }
 
