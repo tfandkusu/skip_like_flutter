@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
-import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance_tween.dart';
+import 'package:skip_like_flutter/screen/skip_like/widget/card_appearance_tween.dart';
 import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model.dart';
 import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model_notifier.dart';
 import 'package:skip_like_flutter/model/member.dart';
@@ -23,6 +23,7 @@ class SkipLikeScreen extends HookConsumerWidget {
             return GestureDetector(
               behavior: HitTestBehavior.translucent,
               onPanStart: (details) {
+                if (uiModel.isIgnoreTouch) return;
                 stateNotifier.onPanStart(
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
@@ -31,12 +32,14 @@ class SkipLikeScreen extends HookConsumerWidget {
                 );
               },
               onPanUpdate: (details) {
+                if (!uiModel.isGestureDetectionStart) return;
                 stateNotifier.onPanUpdate(
                   dragX: details.localPosition.dx,
                   dragY: details.localPosition.dy,
                 );
               },
               onPanEnd: (details) {
+                if (!uiModel.isGestureDetectionStart) return;
                 _handlePanEnd(
                   details: details,
                   uiModel: uiModel,
@@ -44,6 +47,10 @@ class SkipLikeScreen extends HookConsumerWidget {
                   width: constraints.maxWidth,
                   height: constraints.maxHeight,
                 );
+              },
+              onPanCancel: () {
+                if (!uiModel.isGestureDetectionStart) return;
+                stateNotifier.onPanCancel();
               },
               child: Column(
                 children: [
@@ -81,6 +88,7 @@ class SkipLikeScreen extends HookConsumerWidget {
                         icon: Icons.close,
                         scale: uiModel.cardAppearance.skipButtonScale,
                         onPressed: () {
+                          if (uiModel.isIgnoreTouch) return;
                           _onTapSkip(
                             uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
@@ -95,6 +103,7 @@ class SkipLikeScreen extends HookConsumerWidget {
                         icon: Icons.favorite,
                         scale: uiModel.cardAppearance.likeButtonScale,
                         onPressed: () {
+                          if (uiModel.isIgnoreTouch) return;
                           _onTapLike(
                             uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
