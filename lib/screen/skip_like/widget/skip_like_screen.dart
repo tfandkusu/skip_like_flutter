@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance.dart';
-import 'package:skip_like_flutter/screen/skip_like/state_holder/card_appearance_tween.dart';
+import 'package:skip_like_flutter/screen/skip_like/widget/card_appearance_tween.dart';
 import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model.dart';
 import 'package:skip_like_flutter/screen/skip_like/state_holder/skip_like_ui_model_notifier.dart';
 import 'package:skip_like_flutter/model/member.dart';
