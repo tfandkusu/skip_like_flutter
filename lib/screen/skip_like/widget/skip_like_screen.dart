@@ -18,41 +18,10 @@ class SkipLikeScreen extends HookConsumerWidget {
       appBar: AppBar(title: const Text('Skip or Like ?')),
       backgroundColor: Colors.grey.shade300,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onPanStart: (details) {
-                if (uiModel.isIgnoreTouch) return;
-                stateNotifier.onPanStart(
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                  startDragX: details.localPosition.dx,
-                  startDragY: details.localPosition.dy,
-                );
-              },
-              onPanUpdate: (details) {
-                if (!uiModel.isGestureDetectionStart) return;
-                stateNotifier.onPanUpdate(
-                  dragX: details.localPosition.dx,
-                  dragY: details.localPosition.dy,
-                );
-              },
-              onPanEnd: (details) {
-                if (!uiModel.isGestureDetectionStart) return;
-                _handlePanEnd(
-                  details: details,
-                  uiModel: uiModel,
-                  stateNotifier: stateNotifier,
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                );
-              },
-              onPanCancel: () {
-                if (!uiModel.isGestureDetectionStart) return;
-                stateNotifier.onPanCancel();
-              },
-              child: Column(
+        child: _SkipLikeGestureDetector(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
                 children: [
                   // カード表示部
                   Expanded(
@@ -64,18 +33,15 @@ class SkipLikeScreen extends HookConsumerWidget {
                         16.0,
                       ),
                       child: Stack(
-                        children:
-                            [_createBackWidget(stateNotifier.onResetPressed)] +
-                            _createCardWidgets(
-                              isInAnimation: uiModel.isInAnimation,
-                              animationDuration: uiModel.animationDuration,
-                              width: constraints.maxWidth,
-                              height: constraints.maxHeight,
-                              cardAppearance: uiModel.cardAppearance,
-                              animationBeginCardAppearance:
-                                  uiModel.animationBeginCardAppearance,
-                              visibleMembers: uiModel.visibleMembers,
-                            ),
+                        children: [
+                          _BackWidget(
+                            onResetPressed: stateNotifier.onResetPressed,
+                          ),
+                          _MemberCardStack(
+                            overallWidth: constraints.maxWidth,
+                            overallHeight: constraints.maxHeight,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -89,7 +55,7 @@ class SkipLikeScreen extends HookConsumerWidget {
                         scale: uiModel.cardAppearance.skipButtonScale,
                         onPressed: () {
                           if (uiModel.isIgnoreTouch) return;
-                          _onTapSkip(
+                          _skip(
                             uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
                             height: constraints.maxHeight,
@@ -104,7 +70,7 @@ class SkipLikeScreen extends HookConsumerWidget {
                         scale: uiModel.cardAppearance.likeButtonScale,
                         onPressed: () {
                           if (uiModel.isIgnoreTouch) return;
-                          _onTapLike(
+                          _like(
                             uiModelStateNotifier: stateNotifier,
                             width: constraints.maxWidth,
                             height: constraints.maxHeight,
@@ -117,65 +83,63 @@ class SkipLikeScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
   }
+}
 
-  /// カードの裏にある Widget を作成する。
-  ///
-  /// リセットボタンがあり、押すと初期状態に戻る。
-  Widget _createBackWidget(VoidCallback onResetPressed) {
-    return Container(
-      alignment: Alignment.center,
-      child: ElevatedButton(onPressed: onResetPressed, child: Text("Reset")),
+/// GestureDetector 部分 Widget
+class _SkipLikeGestureDetector extends ConsumerWidget {
+  final Widget child;
+
+  const _SkipLikeGestureDetector({required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stateNotifier = ref.watch(skipLikeUiModelNotifierProvider.notifier);
+    final uiModel = ref.watch(skipLikeUiModelNotifierProvider);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onPanStart: (details) {
+            if (uiModel.isIgnoreTouch) return;
+            stateNotifier.onPanStart(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+              startDragX: details.localPosition.dx,
+              startDragY: details.localPosition.dy,
+            );
+          },
+          onPanUpdate: (details) {
+            if (!uiModel.isGestureDetectionStart) return;
+            stateNotifier.onPanUpdate(
+              dragX: details.localPosition.dx,
+              dragY: details.localPosition.dy,
+            );
+          },
+          onPanEnd: (details) {
+            if (!uiModel.isGestureDetectionStart) return;
+            _handlePanEnd(
+              details: details,
+              uiModel: uiModel,
+              stateNotifier: stateNotifier,
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+            );
+          },
+          onPanCancel: () {
+            if (!uiModel.isGestureDetectionStart) return;
+            stateNotifier.onPanCancel();
+          },
+          child: child,
+        );
+      },
     );
-  }
-
-  List<Widget> _createCardWidgets({
-    required bool isInAnimation,
-    required Duration animationDuration,
-    required double width,
-    required double height,
-    required CardAppearance cardAppearance,
-    required CardAppearance animationBeginCardAppearance,
-    required List<Member> visibleMembers,
-  }) {
-    List<Widget> cardWidgets = [];
-    for (var i = visibleMembers.length - 1; i >= 0; i--) {
-      final member = visibleMembers[i];
-      if (i >= 1) {
-        cardWidgets.add(
-          AnimatedPadding(
-            key: Key('card_${member.id}'),
-            duration: const Duration(milliseconds: 200),
-            padding: EdgeInsets.only(top: 8.0 * (2 - i), bottom: 8.0 * i),
-            child: _MemberCard(member: member, alpha: 1.0),
-          ),
-        );
-      } else {
-        cardWidgets.add(
-          AnimatedPadding(
-            key: Key('card_${member.id}'),
-            duration: const Duration(milliseconds: 200),
-            padding: EdgeInsets.only(top: 8.0 * (2 - i), bottom: 8.0 * i),
-            child: _AnimatedMemberCard(
-              isInAnimation: isInAnimation,
-              animationDuration: animationDuration,
-              width: width,
-              height: height,
-              cardAppearance: cardAppearance,
-              animationBeginCardAppearance: animationBeginCardAppearance,
-              member: member,
-            ),
-          ),
-        );
-      }
-    }
-    return cardWidgets;
   }
 
   void _handlePanEnd({
@@ -188,55 +152,112 @@ class SkipLikeScreen extends HookConsumerWidget {
     final speed = details.velocity.pixelsPerSecond.dx;
     if (speed < 0 && uiModel.cardAppearance.angle < 0) {
       // 左 Fling 操作
-      _onTapSkip(
-        uiModelStateNotifier: stateNotifier,
-        width: width,
-        height: height,
-      );
+      _skip(uiModelStateNotifier: stateNotifier, width: width, height: height);
     } else if (speed > 0 && uiModel.cardAppearance.angle > 0) {
       // 右 Fling 操作
-      _onTapLike(
-        uiModelStateNotifier: stateNotifier,
-        width: width,
-        height: height,
-      );
+      _like(uiModelStateNotifier: stateNotifier, width: width, height: height);
     } else if (uiModel.cardAppearance.angle < -skipLikeThreshold) {
       // 左に7.5度以上ドラッグした
-      _onTapSkip(
-        uiModelStateNotifier: stateNotifier,
-        width: width,
-        height: height,
-      );
+      _skip(uiModelStateNotifier: stateNotifier, width: width, height: height);
     } else if (uiModel.cardAppearance.angle > skipLikeThreshold) {
       // 右に7.5度以上ドラッグした
-      _onTapLike(
-        uiModelStateNotifier: stateNotifier,
-        width: width,
-        height: height,
-      );
+      _like(uiModelStateNotifier: stateNotifier, width: width, height: height);
     } else {
       stateNotifier.onPanEnd();
     }
   }
+}
 
-  void _onTapSkip({
-    required SkipLikeUiModelNotifier uiModelStateNotifier,
-    required double width,
-    required double height,
-  }) async {
-    uiModelStateNotifier.onTapSkip(width: width, height: height);
-    await Future.delayed(const Duration(milliseconds: 500));
-    uiModelStateNotifier.onAnimationEnd();
+/// スキップ処理
+void _skip({
+  required SkipLikeUiModelNotifier uiModelStateNotifier,
+  required double width,
+  required double height,
+}) async {
+  uiModelStateNotifier.skip(width: width, height: height);
+  await Future.delayed(const Duration(milliseconds: 500));
+  uiModelStateNotifier.onAnimationEnd();
+}
+
+/// いいね処理
+void _like({
+  required SkipLikeUiModelNotifier uiModelStateNotifier,
+  required double width,
+  required double height,
+}) async {
+  uiModelStateNotifier.like(width: width, height: height);
+  await Future.delayed(const Duration(milliseconds: 500));
+  uiModelStateNotifier.onAnimationEnd();
+}
+
+/// カードの裏にある Widget
+///
+/// リセットボタンがあり、押すと初期状態に戻る。
+class _BackWidget extends StatelessWidget {
+  final VoidCallback onResetPressed;
+
+  const _BackWidget({required this.onResetPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: ElevatedButton(onPressed: onResetPressed, child: Text("Reset")),
+    );
   }
+}
 
-  void _onTapLike({
-    required SkipLikeUiModelNotifier uiModelStateNotifier,
-    required double width,
-    required double height,
-  }) async {
-    uiModelStateNotifier.onTapLike(width: width, height: height);
-    await Future.delayed(const Duration(milliseconds: 500));
-    uiModelStateNotifier.onAnimationEnd();
+/// 重なっているメンバーカード
+class _MemberCardStack extends ConsumerWidget {
+  /// アニメーションの可動範囲全体の横幅
+  final double overallWidth;
+
+  /// アニメーションの可動範囲全体の高さ
+  final double overallHeight;
+
+  const _MemberCardStack({
+    required this.overallWidth,
+    required this.overallHeight,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiModel = ref.watch(skipLikeUiModelNotifierProvider);
+    List<Widget> cardWidgets = [];
+    for (var i = uiModel.visibleMembers.length - 1; i >= 0; i--) {
+      final member = uiModel.visibleMembers[i];
+      if (i >= 1) {
+        // 2番目以降のカード。
+        cardWidgets.add(
+          AnimatedPadding(
+            key: Key('card_${member.id}'),
+            duration: const Duration(milliseconds: 200),
+            padding: EdgeInsets.only(top: 8.0 * (2 - i), bottom: 8.0 * i),
+            child: _MemberCard(member: member, alpha: 1.0),
+          ),
+        );
+      } else {
+        // 1番目のカード。
+        cardWidgets.add(
+          AnimatedPadding(
+            key: Key('card_${member.id}'),
+            duration: const Duration(milliseconds: 200),
+            padding: EdgeInsets.only(top: 8.0 * (2 - i), bottom: 8.0 * i),
+            child: _AnimatedMemberCard(
+              isInAnimation: uiModel.isInAnimation,
+              animationDuration: uiModel.animationDuration,
+              width: overallWidth,
+              height: overallHeight,
+              cardAppearance: uiModel.cardAppearance,
+              animationBeginCardAppearance:
+                  uiModel.animationBeginCardAppearance,
+              member: member,
+            ),
+          ),
+        );
+      }
+    }
+    return Stack(children: cardWidgets);
   }
 }
 

@@ -28,6 +28,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     ),
   );
 
+  /// ドラッグ操作開始時処理。
   void onPanStart({
     required double width,
     required double height,
@@ -44,6 +45,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
+  /// ドラッグ操作中処理。
   void onPanUpdate({required double dragX, required double dragY}) {
     state = state.copyWith(
       cardAppearance: state.cardAppearance.copyWith(
@@ -53,6 +55,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
+  /// ドラッグ操作終了時処理。
   void onPanEnd() {
     state = state.copyWith(
       isInAnimation: true,
@@ -63,11 +66,13 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
+  /// ドラッグ操作キャンセル時処理。
   void onPanCancel() {
     onPanEnd();
   }
 
-  void onTapSkip({required double width, required double height}) {
+  /// スキップ処理。
+  void skip({required double width, required double height}) {
     state = state.copyWith(
       isInAnimation: true,
       isIgnoreTouch: true,
@@ -82,7 +87,8 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
-  void onTapLike({required double width, required double height}) {
+  /// いいね処理。
+  void like({required double width, required double height}) {
     state = state.copyWith(
       isInAnimation: true,
       isIgnoreTouch: true,
@@ -97,6 +103,7 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
+  /// アニメーション終了時処理。
   void onAnimationEnd() {
     state = state.copyWith(
       isInAnimation: false,
@@ -112,10 +119,12 @@ class SkipLikeUiModelNotifier extends _$SkipLikeUiModelNotifier {
     );
   }
 
+  /// リセット処理。
   void onResetPressed() {
     state = state.copyWith(members: _createMembers());
   }
 
+  /// メンバーを作成する。
   List<Member> _createMembers() {
     return [
       Member(
