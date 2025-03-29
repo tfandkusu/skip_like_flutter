@@ -168,24 +168,24 @@ class _SkipLikeGestureDetector extends ConsumerWidget {
   }
 }
 
-/// スキップボタンを押したときの処理
+/// スキップ処理
 void _skip({
   required SkipLikeUiModelNotifier uiModelStateNotifier,
   required double width,
   required double height,
 }) async {
-  uiModelStateNotifier.onTapSkip(width: width, height: height);
+  uiModelStateNotifier.skip(width: width, height: height);
   await Future.delayed(const Duration(milliseconds: 500));
   uiModelStateNotifier.onAnimationEnd();
 }
 
-/// いいねボタンを押したときの処理
+/// いいね処理
 void _like({
   required SkipLikeUiModelNotifier uiModelStateNotifier,
   required double width,
   required double height,
 }) async {
-  uiModelStateNotifier.onTapLike(width: width, height: height);
+  uiModelStateNotifier.like(width: width, height: height);
   await Future.delayed(const Duration(milliseconds: 500));
   uiModelStateNotifier.onAnimationEnd();
 }

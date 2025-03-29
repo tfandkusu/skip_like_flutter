@@ -269,7 +269,7 @@ void main() {
 
     test('onTapSkipとonAnimationEndでカードが正しくスキップされる', () {
       // 1. スキップボタンをタップ
-      notifier.onTapSkip(width: 300.0, height: 500.0);
+      notifier.skip(width: 300.0, height: 500.0);
       final skipState = container.read(skipLikeUiModelNotifierProvider);
       expect(skipState.isInAnimation, true);
       expect(skipState.animationDuration, const Duration(milliseconds: 500));
@@ -292,7 +292,7 @@ void main() {
 
     test('onTapLikeとonAnimationEndでカードが正しくいいねされる', () {
       // 1. いいねボタンをタップ
-      notifier.onTapLike(width: 300.0, height: 500.0);
+      notifier.like(width: 300.0, height: 500.0);
       final likeState = container.read(skipLikeUiModelNotifierProvider);
       expect(likeState.isInAnimation, true);
       expect(likeState.animationDuration, const Duration(milliseconds: 500));
@@ -315,14 +315,14 @@ void main() {
 
     test('onResetPressedでメンバーリストが初期状態に戻る', () {
       // 1. スキップボタンをタップ
-      notifier.onTapSkip(width: 300.0, height: 500.0);
+      notifier.skip(width: 300.0, height: 500.0);
       notifier.onAnimationEnd();
       final state1 = container.read(skipLikeUiModelNotifierProvider);
       expect(state1.members.length, testMembers.length - 1);
       expect(state1.members[0], testMembers[1]);
 
       // 2. いいねボタンをタップ
-      notifier.onTapLike(width: 300.0, height: 500.0);
+      notifier.like(width: 300.0, height: 500.0);
       notifier.onAnimationEnd();
       final state2 = container.read(skipLikeUiModelNotifierProvider);
       expect(state2.members.length, testMembers.length - 2);
