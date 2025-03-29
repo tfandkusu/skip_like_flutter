@@ -18,41 +18,10 @@ class SkipLikeScreen extends HookConsumerWidget {
       appBar: AppBar(title: const Text('Skip or Like ?')),
       backgroundColor: Colors.grey.shade300,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onPanStart: (details) {
-                if (uiModel.isIgnoreTouch) return;
-                stateNotifier.onPanStart(
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                  startDragX: details.localPosition.dx,
-                  startDragY: details.localPosition.dy,
-                );
-              },
-              onPanUpdate: (details) {
-                if (!uiModel.isGestureDetectionStart) return;
-                stateNotifier.onPanUpdate(
-                  dragX: details.localPosition.dx,
-                  dragY: details.localPosition.dy,
-                );
-              },
-              onPanEnd: (details) {
-                if (!uiModel.isGestureDetectionStart) return;
-                _handlePanEnd(
-                  details: details,
-                  uiModel: uiModel,
-                  stateNotifier: stateNotifier,
-                  width: constraints.maxWidth,
-                  height: constraints.maxHeight,
-                );
-              },
-              onPanCancel: () {
-                if (!uiModel.isGestureDetectionStart) return;
-                stateNotifier.onPanCancel();
-              },
-              child: Column(
+        child: _SkipLikeGestureDetector(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
                 children: [
                   // カード表示部
                   Expanded(
@@ -117,9 +86,9 @@ class SkipLikeScreen extends HookConsumerWidget {
                   ),
                   const SizedBox(height: 16),
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
@@ -177,6 +146,57 @@ class SkipLikeScreen extends HookConsumerWidget {
     }
     return cardWidgets;
   }
+}
+
+/// GestureDetector 部分 Widget
+class _SkipLikeGestureDetector extends ConsumerWidget {
+  final Widget child;
+
+  const _SkipLikeGestureDetector({required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stateNotifier = ref.watch(skipLikeUiModelNotifierProvider.notifier);
+    final uiModel = ref.watch(skipLikeUiModelNotifierProvider);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onPanStart: (details) {
+            if (uiModel.isIgnoreTouch) return;
+            stateNotifier.onPanStart(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+              startDragX: details.localPosition.dx,
+              startDragY: details.localPosition.dy,
+            );
+          },
+          onPanUpdate: (details) {
+            if (!uiModel.isGestureDetectionStart) return;
+            stateNotifier.onPanUpdate(
+              dragX: details.localPosition.dx,
+              dragY: details.localPosition.dy,
+            );
+          },
+          onPanEnd: (details) {
+            if (!uiModel.isGestureDetectionStart) return;
+            _handlePanEnd(
+              details: details,
+              uiModel: uiModel,
+              stateNotifier: stateNotifier,
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+            );
+          },
+          onPanCancel: () {
+            if (!uiModel.isGestureDetectionStart) return;
+            stateNotifier.onPanCancel();
+          },
+          child: child,
+        );
+      },
+    );
+  }
 
   void _handlePanEnd({
     required DragEndDetails details,
@@ -218,26 +238,26 @@ class SkipLikeScreen extends HookConsumerWidget {
       stateNotifier.onPanEnd();
     }
   }
+}
 
-  void _onTapSkip({
-    required SkipLikeUiModelNotifier uiModelStateNotifier,
-    required double width,
-    required double height,
-  }) async {
-    uiModelStateNotifier.onTapSkip(width: width, height: height);
-    await Future.delayed(const Duration(milliseconds: 500));
-    uiModelStateNotifier.onAnimationEnd();
-  }
+void _onTapSkip({
+  required SkipLikeUiModelNotifier uiModelStateNotifier,
+  required double width,
+  required double height,
+}) async {
+  uiModelStateNotifier.onTapSkip(width: width, height: height);
+  await Future.delayed(const Duration(milliseconds: 500));
+  uiModelStateNotifier.onAnimationEnd();
+}
 
-  void _onTapLike({
-    required SkipLikeUiModelNotifier uiModelStateNotifier,
-    required double width,
-    required double height,
-  }) async {
-    uiModelStateNotifier.onTapLike(width: width, height: height);
-    await Future.delayed(const Duration(milliseconds: 500));
-    uiModelStateNotifier.onAnimationEnd();
-  }
+void _onTapLike({
+  required SkipLikeUiModelNotifier uiModelStateNotifier,
+  required double width,
+  required double height,
+}) async {
+  uiModelStateNotifier.onTapLike(width: width, height: height);
+  await Future.delayed(const Duration(milliseconds: 500));
+  uiModelStateNotifier.onAnimationEnd();
 }
 
 /// アニメーション付きメンバーカード
