@@ -6,3 +6,5 @@ build/
 /.idea
 custom_lint.log
 .DS_Store
+.firebase/
+
