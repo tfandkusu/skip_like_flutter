@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "tfandkusu"
+  },
+  "targets": {
+    "tfandkusu": {
+      "hosting": {
+        "release": [
+          "skip-or-like"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
