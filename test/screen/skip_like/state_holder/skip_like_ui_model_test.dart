@@ -92,5 +92,28 @@ void main() {
       final visibleMembers = uiModel.visibleMembers;
       expect(visibleMembers, isEmpty);
     });
+
+    test('isButtonsVisibleはメンバーが空の場合はfalseを返す', () {
+      final uiModel = createHomeUIModel([]);
+
+      final isButtonsVisible = uiModel.isButtonsVisible;
+      expect(isButtonsVisible, false);
+    });
+
+    test('isButtonsVisibleはメンバーが1件以上の場合はtrueを返す', () {
+      final members = [
+        Member(
+          id: 1,
+          age: 33,
+          prefecture: '東京',
+          imagePath: 'assets/member_01.png',
+        ),
+      ];
+
+      final uiModel = createHomeUIModel(members);
+
+      final isButtonsVisible = uiModel.isButtonsVisible;
+      expect(isButtonsVisible, true);
+    });
   });
 }

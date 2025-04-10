@@ -35,4 +35,7 @@ abstract class SkipLikeUiModel with _$SkipLikeUiModel {
 extension HomeUiModelExtension on SkipLikeUiModel {
   /// 表示する最大3件のメンバー
   List<Member> get visibleMembers => members.take(3).toList();
+
+  /// スキップ、いいねボタンが表示されているか。
+  bool get isButtonsVisible => visibleMembers.isNotEmpty;
 }

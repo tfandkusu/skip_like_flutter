@@ -46,40 +46,46 @@ class SkipLikeScreen extends HookConsumerWidget {
                     ),
                   ),
                   // スキップ、いいねボタン表示部
-                  Row(
-                    children: [
-                      Spacer(),
-                      _DecisionButton(
-                        isInAnimation: uiModel.isInAnimation,
-                        icon: Icons.close,
-                        scale: uiModel.cardAppearance.skipButtonScale,
-                        onPressed: () {
-                          if (uiModel.isIgnoreTouch) return;
-                          _skip(
-                            uiModelStateNotifier: stateNotifier,
-                            width: constraints.maxWidth,
-                            height: constraints.maxHeight,
-                          );
-                        },
-                        backgroundColor: Colors.red,
-                      ),
-                      const SizedBox(width: 64),
-                      _DecisionButton(
-                        isInAnimation: uiModel.isInAnimation,
-                        icon: Icons.favorite,
-                        scale: uiModel.cardAppearance.likeButtonScale,
-                        onPressed: () {
-                          if (uiModel.isIgnoreTouch) return;
-                          _like(
-                            uiModelStateNotifier: stateNotifier,
-                            width: constraints.maxWidth,
-                            height: constraints.maxHeight,
-                          );
-                        },
-                        backgroundColor: Colors.green,
-                      ),
-                      Spacer(),
-                    ],
+                  Visibility(
+                    visible: uiModel.isButtonsVisible,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    maintainState: true,
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        _DecisionButton(
+                          isInAnimation: uiModel.isInAnimation,
+                          icon: Icons.close,
+                          scale: uiModel.cardAppearance.skipButtonScale,
+                          onPressed: () {
+                            if (uiModel.isIgnoreTouch) return;
+                            _skip(
+                              uiModelStateNotifier: stateNotifier,
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                            );
+                          },
+                          backgroundColor: Colors.red,
+                        ),
+                        const SizedBox(width: 64),
+                        _DecisionButton(
+                          isInAnimation: uiModel.isInAnimation,
+                          icon: Icons.favorite,
+                          scale: uiModel.cardAppearance.likeButtonScale,
+                          onPressed: () {
+                            if (uiModel.isIgnoreTouch) return;
+                            _like(
+                              uiModelStateNotifier: stateNotifier,
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                            );
+                          },
+                          backgroundColor: Colors.green,
+                        ),
+                        Spacer(),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 16),
                 ],
